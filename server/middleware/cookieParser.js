@@ -1,5 +1,6 @@
 export function cookieParser(req, _res, next) {
-    const cookiesStrings = req.headers.cookie
+    const cookieHeader = req.headers.cookie || "";
+    const cookiesStrings = cookieHeader
         .split(';')
         .map(s => s.trim().split('=').map(d => d.trim()));
 

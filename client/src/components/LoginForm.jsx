@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { GlobalContext } from "../context/GlobalContext";
 
 export function LoginForm() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const { login } = useContext(GlobalContext);
+
+    // TODO: kai darbai bus baigti - pasalinti email/password reiksmes
+    const [email, setEmail] = useState('chuck@norris.com');
+    const [password, setPassword] = useState('chuck@norris.comchuck@norris.com');
     const [alertMessage, setAlertMessage] = useState('');
     const [alertColor, setAlertColor] = useState('alert-info');
+
+    const navigate = useNavigate();
 
     function handleEmailChange(event) {
         setEmail(event.target.value);
@@ -18,29 +25,38 @@ export function LoginForm() {
         event.preventDefault();
 
         fetch('http://localhost:5114/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    setAlertMessage(() => 'Prisijungimas sėkmingas.');
-                    setAlertColor(() => 'alert-success');
-                } else if (data.status === 'error') {
-                    setAlertMessage(() => data.msg);
-                    setAlertColor(() => 'alert-danger');
-                } else {
-                    setAlertMessage(() => 'Nežinoma klaida.');
-                    setAlertColor(() => 'alert-warning');
-                }
-            })
-            .catch(() => {
-                setAlertMessage(() => 'Prisijungimas nepavyko. Pabandykite vėliau.');
-                setAlertColor(() => 'alert-danger');
-            });
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify({ email, password }),
+})
+    .then(async res => {
+        if (!res.ok) {
+            // Log the response if the status is not OK
+            const errorMessage = await res.text();
+            console.error('Error response:', errorMessage);
+            throw new Error('Failed to log in');
+        }
+        return res.json();
+    })
+    .then(data => {
+        if (data.status === 'success') {
+            setAlertMessage('Prisijungimas sėkmingas.');
+            setAlertColor('alert-success');
+            login(data.role, data.email, data.registeredAt);
+            navigate('/feed');
+        } else {
+            setAlertMessage(data.msg || 'Unknown error.');
+            setAlertColor('alert-danger');
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        setAlertMessage('Prisijungimas nepavyko. Pabandykite vėliau.');
+        setAlertColor('alert-danger');
+    });
 
     }
     return (

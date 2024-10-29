@@ -129,8 +129,8 @@ export async function loginGetAPI(req, res) {
 
     try {
         const sql = `
-            SELECT token, email, registered_at , created_at
-            FROM tokens 
+            SELECT token, email, registered_at, created_at
+            FROM tokens
             INNER JOIN users
                 ON users.id = tokens.user_id
             WHERE token = ?;`;

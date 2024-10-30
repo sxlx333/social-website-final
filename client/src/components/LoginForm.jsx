@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { GlobalContext } from "../context/GlobalContext";
+import { UserContext } from "../context/UserContext";
 
 export function LoginForm() {
-    const { login } = useContext(GlobalContext);
+    const { login } = useContext(UserContext);
 
     // TODO: kai darbai bus baigti - pasalinti email/password reiksmes
     const [email, setEmail] = useState('chuck@norris.com');
@@ -25,38 +25,32 @@ export function LoginForm() {
         event.preventDefault();
 
         fetch('http://localhost:5114/api/login', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify({ email, password }),
-})
-    .then(async res => {
-        if (!res.ok) {
-            // Log the response if the status is not OK
-            const errorMessage = await res.text();
-            console.error('Error response:', errorMessage);
-            throw new Error('Failed to log in');
-        }
-        return res.json();
-    })
-    .then(data => {
-        if (data.status === 'success') {
-            setAlertMessage('Prisijungimas sėkmingas.');
-            setAlertColor('alert-success');
-            login(data.role, data.email, data.registeredAt);
-            navigate('/feed');
-        } else {
-            setAlertMessage(data.msg || 'Unknown error.');
-            setAlertColor('alert-danger');
-        }
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        setAlertMessage('Prisijungimas nepavyko. Pabandykite vėliau.');
-        setAlertColor('alert-danger');
-    });
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({ email, password }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    setAlertMessage(() => 'Prisijungimas sėkmingas.');
+                    setAlertColor(() => 'alert-success');
+                    login(data.role, data.email, data.registeredAt);
+                    navigate('/feed');
+                } else if (data.status === 'error') {
+                    setAlertMessage(() => data.msg);
+                    setAlertColor(() => 'alert-danger');
+                } else {
+                    setAlertMessage(() => 'Nežinoma klaida.');
+                    setAlertColor(() => 'alert-warning');
+                }
+            })
+            .catch(() => {
+                setAlertMessage(() => 'Prisijungimas nepavyko. Pabandykite vėliau.');
+                setAlertColor(() => 'alert-danger');
+            });
 
     }
     return (

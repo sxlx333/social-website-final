@@ -22,7 +22,7 @@ export const initialPostsContext = {
 export const PostsContext = createContext(initialPostsContext);
 
 export function PostsContextWrapper(props) {
-    const { isLoggedIn } = useContext(UserContext);
+    const { isLoggedIn, logout } = useContext(UserContext);
     const [posts, setPosts] = useState(initialPostsContext.posts);
 
     useEffect(() => {
@@ -35,45 +35,60 @@ export function PostsContextWrapper(props) {
         }
     }, [isLoggedIn]);
 
-    // useEffect(() => {
-    //     if (isLoggedIn !== true) {
-    //         return;
-    //     }
-
-    //     const id = setInterval(() => {
-    //         console.log('kartojasi...');
-    //         loadNewPosts();
-    //     }, 1000);
-
-    //     loadNewPosts();
-
-    //     return () => clearInterval(id);
-    // }, [isLoggedIn]);
-
-    function loadInitialPosts() {
-        loadOlderPosts();
-    }
-
-    function loadNewPosts() {
-        if (!isLoggedIn) {
+    useEffect(() => {
+        if (isLoggedIn !== true) {
             return;
         }
 
-        const newestPostId = posts.at(0)?.id;
+        const id = setTimeout(async () => {
+            const newPosts = await loadNewPosts();
+            setPosts(pre => [...newPosts, ...pre]);
+        }, 20000);
 
-        fetch('http://localhost:5114/api/post/new/' + newestPostId, {
+        return () => clearInterval(id);
+    }, [isLoggedIn, posts]);
+
+    async function loadInitialPosts() {
+        return fetch('http://localhost:5114/api/post/initial', {
             method: 'GET',
             credentials: 'include',
         })
             .then(res => res.json())
             .then(data => {
-                setPosts(pre => [...data.posts, ...pre]);
+                setPosts(() => [...data.posts]);
             })
-            .catch(console.error);
+            .catch(err => {
+                console.error(err);
+            });
     }
 
-    function loadOlderPosts(lastPostId) {
-        fetch('http://localhost:5114/api/post', {
+    async function loadNewPosts() {
+        if (!isLoggedIn) {
+            return;
+        }
+
+        const newestPostId = posts.at(0)?.id ?? 0;
+        return fetch('http://localhost:5114/api/post/new/' + newestPostId, {
+            method: 'GET',
+            credentials: 'include',
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'error' && data.isLoggedIn === false) {
+                    logout();
+                    return [];
+                }
+                return data.posts;
+            })
+            .catch(err => {
+                console.error(err);
+                return [];
+            });
+    }
+
+    async function loadOlderPosts() {
+        const lastPostId = posts.at(-1)?.id ?? 0;
+        return fetch('http://localhost:5114/api/post/old/' + lastPostId, {
             method: 'GET',
             credentials: 'include',
         })
@@ -81,7 +96,10 @@ export function PostsContextWrapper(props) {
             .then(data => {
                 setPosts(pre => [...pre, ...data.posts]);
             })
-            .catch(console.error);
+            .catch(err => {
+                console.error(err);
+                return [];
+            });
     }
 
     function addMyPost() {

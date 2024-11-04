@@ -1,8 +1,10 @@
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import { formatProfileDate } from "../lib/formatProfileTime";
 
 export function UserProfile() {
     const { role, email, registeredAt } = useContext(UserContext);
+    const formattedRegisteredAt = formatProfileDate(registeredAt);
 
     return (
         <main>
@@ -21,7 +23,7 @@ export function UserProfile() {
                     </div>
                     <div className="col-12 col-md-6 col-lg-4 mb-3">
                         <p className="fw-bold">Registracijos data</p>
-                        <p>{registeredAt}</p>
+                        <p>{formattedRegisteredAt}</p>
                     </div>
                 </div>
             </div>

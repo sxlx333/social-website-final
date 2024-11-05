@@ -89,18 +89,22 @@ export function PostsContextWrapper(props) {
 
     async function loadOlderPosts() {
         const lastPostId = posts.at(-1)?.post_id ?? 0;
-        return fetch('http://localhost:5114/api/post/old/' + lastPostId, {
-            method: 'GET',
-            credentials: 'include',
-        })
-            .then(res => res.json())
-            .then(data => {
-                setPosts(pre => [...pre, ...data.posts]);
-            })
-            .catch(err => {
-                console.error(err);
-                return [];
+        try {
+            const response = await fetch(`http://localhost:5114/api/post/old/${lastPostId}`, {
+                method: 'GET',
+                credentials: 'include',
             });
+            const data = await response.json();
+    
+            if (data.posts.length > 0) {
+                setPosts((prevPosts) => [...prevPosts, ...data.posts]);
+            }
+            
+            return data.posts;
+        } catch (error) {
+            console.error('Error loading older posts:', error);
+            return [];
+        }
     }
 
     function addMyPost() {

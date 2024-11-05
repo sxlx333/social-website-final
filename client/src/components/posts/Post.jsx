@@ -7,12 +7,18 @@ import { formatTime } from '../../lib/formatTime';
 
 export function Post({ post }) {
     const textDisplayMaxSize = 200;
+    const minRemainingTextToShowMore = 50;
 
     const { userId } = useContext(UserContext);
     const [postTextFullSize, setPostTextFullSize] = useState(post.text.length < textDisplayMaxSize);
 
-    const text = post.text.slice(0, textDisplayMaxSize).trim()
-        + (post.text.length >= textDisplayMaxSize ? '... ' : '');
+    const remainingTextLength = post.text.length - textDisplayMaxSize;
+
+    const shouldDisplayToggle = remainingTextLength > minRemainingTextToShowMore;
+
+    const displayedText = postTextFullSize || !shouldDisplayToggle
+        ? post.text
+        : post.text.slice(0, textDisplayMaxSize).trim() + '...';
 
     return (
         <article className={style.post} data-id={post.post_id}>
@@ -26,9 +32,13 @@ export function Post({ post }) {
             </header>
             <div className={style.content}>
                 <p className={post.text.length < 100 ? style.bigText : ''}>
-                    {postTextFullSize ? post.text : text}
-                    <span onClick={() => setPostTextFullSize(pre => !pre)}
-                        className={style.more}>Skaityti {postTextFullSize ? 'mažiau' : 'daugiau'}</span>
+                    {displayedText}
+                    {shouldDisplayToggle && (
+                        <span onClick={() => setPostTextFullSize(prev => !prev)}
+                              className={style.more}>
+                            Skaityti {postTextFullSize ? 'mažiau' : 'daugiau'}
+                        </span>
+                    )}
                 </p>
             </div>
             <div className={style.interactions}>
@@ -55,20 +65,5 @@ export function Post({ post }) {
                 </div>
             </div>
         </article>
-    )
-
-    // return (
-    //     <div className="card shadow-sm my-5">
-    //         <div className="card-body">
-    //             <p className="card-text">{post.text}</p>
-    //             <div className="d-flex justify-content-between align-items-center">
-    //                 <div className="btn-group">
-    //                     <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-    //                     {post.user_id === userId && <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>}
-    //                 </div>
-    //                 <small className="text-body-secondary">{formatTime(post.created_at)}</small>
-    //             </div>
-    //         </div>
-    //     </div>
-    // );
+    );
 }

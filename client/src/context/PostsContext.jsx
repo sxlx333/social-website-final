@@ -22,6 +22,7 @@ export const initialPostsContext = {
 export const PostsContext = createContext(initialPostsContext);
 
 export function PostsContextWrapper(props) {
+    const feedRefreshIntervalInSeconds = 10;
     const { isLoggedIn, logout } = useContext(UserContext);
     const [posts, setPosts] = useState(initialPostsContext.posts);
 
@@ -43,7 +44,7 @@ export function PostsContextWrapper(props) {
         const id = setTimeout(async () => {
             const newPosts = await loadNewPosts();
             setPosts(pre => [...newPosts, ...pre]);
-        }, 20000);
+        }, feedRefreshIntervalInSeconds * 1000);
 
         return () => clearInterval(id);
     }, [isLoggedIn, posts]);
@@ -67,7 +68,7 @@ export function PostsContextWrapper(props) {
             return;
         }
 
-        const newestPostId = posts.at(0)?.id ?? 0;
+        const newestPostId = posts.at(0)?.post_id ?? 0;
         return fetch('http://localhost:5114/api/post/new/' + newestPostId, {
             method: 'GET',
             credentials: 'include',
@@ -87,7 +88,7 @@ export function PostsContextWrapper(props) {
     }
 
     async function loadOlderPosts() {
-        const lastPostId = posts.at(-1)?.id ?? 0;
+        const lastPostId = posts.at(-1)?.post_id ?? 0;
         return fetch('http://localhost:5114/api/post/old/' + lastPostId, {
             method: 'GET',
             credentials: 'include',

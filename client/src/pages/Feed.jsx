@@ -27,7 +27,7 @@ export function Feed() {
                     <div className="col-md-10 mx-auto col-lg-6 col-xl-5">
                         {posts.length === 0
                             ? empty
-                            : posts.map(post => <Post key={post.id} post={post} />)
+                            : posts.map(post => <Post key={post.post_id} post={post} />)
                         }
                     </div>
                 </div>
@@ -38,7 +38,7 @@ export function Feed() {
                         </button>
                     ) : (
                         <div className="alert alert-info text-center">
-                            You have reached the end.
+                            Daugiau turinio nėra.
                         </div>
                     )}
                 </div>

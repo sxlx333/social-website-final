@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import style from './Post.module.css';
 import { UserContext } from '../../context/UserContext';
@@ -12,15 +11,16 @@ import gifIcon from '../../assets/gif.svg';
 import userDefaultProfile from '../../assets/userDefaultProfile.svg';
 
 export function Post({ post }) {
-    const softCutLimit = 200;
-    const hardCutLimit = softCutLimit + 50;
+    const softCutLimit = 200; // Truncate after 200 characters
+    const hardCutLimit = softCutLimit + 100; // Extra buffer for when the text is long enough
 
     const { userId, profileImage } = useContext(UserContext);
-    const [postTextFullSize, setPostTextFullSize] = useState(post.text.length < hardCutLimit);
+    const [postTextFullSize, setPostTextFullSize] = useState(post.text.length <= softCutLimit);
 
+    // Decide the text content to show: either the truncated version or the full text
     const text = postTextFullSize
         ? post.text
-        : post.text.slice(0, softCutLimit).trim() + '... ';
+        : post.text.slice(0, softCutLimit).trim() + '...';
 
     return (
         <article className={style.post} data-id={post.post_id}>
@@ -35,10 +35,22 @@ export function Post({ post }) {
             <div className={style.content}>
                 <p className={post.text.length < 100 ? style.bigText : ''}>
                     {text}
-                    {text !== post.text
-                        && <span onClick={() => setPostTextFullSize(pre => !pre)}
-                            className={style.more}>Skaityti {postTextFullSize ? 'mažiau' : 'daugiau'}</span>
-                    }
+                    {post.text.length > softCutLimit && !postTextFullSize && (
+                        <span
+                            onClick={() => setPostTextFullSize(true)}
+                            className={style.more}
+                        >
+                            Skaityti daugiau
+                        </span>
+                    )}
+                    {postTextFullSize && post.text.length > hardCutLimit && (
+                        <span
+                            onClick={() => setPostTextFullSize(false)}
+                            className={style.more}
+                        >
+                            Skaityti mažiau
+                        </span>
+                    )}
                 </p>
             </div>
             <div className={style.interactions}>
@@ -65,5 +77,5 @@ export function Post({ post }) {
                 </div>
             </div>
         </article>
-    )
+    );
 }

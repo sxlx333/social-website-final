@@ -9,6 +9,7 @@ import smileIcon from '../../assets/smile.svg';
 import cameraIcon from '../../assets/camera.svg';
 import gifIcon from '../../assets/gif.svg';
 import userDefaultProfile from '../../assets/userDefaultProfile.svg';
+import thumbDownIcon from '../../assets/thumbsDown.svg';
 
 export function Post({ post }) {
     const softCutLimit = 200; // Truncate after 200 characters
@@ -57,6 +58,11 @@ export function Post({ post }) {
                 <div className={style.action}>
                     <img src={thumbIcon} alt="Patinka" />
                     <span>Patinka</span>
+                    {post.likes_count > 0 && <span>({post.likes_count})</span>}
+                </div>
+                <div className={style.action}>
+                    <img src={thumbDownIcon} alt="Nepatinka" />
+                    <span>Nepatinka</span>
                     {post.likes_count > 0 && <span>({post.likes_count})</span>}
                 </div>
                 <div className={style.action}>

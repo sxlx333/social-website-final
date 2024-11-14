@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../../context/UserContext";
-import { formatProfileDate } from "../../../../../client/src/lib/formatProfileTime";
+import { formatProfileDate } from "../../../../../client/src/lib/formatProfileTime.js";
 import style from './UserProfile.module.css';
 
 export function UserProfile() {

@@ -42,6 +42,42 @@ export async function postPostAPI(req, res) {
         });
 }
 
+export async function getUsersWithPostCount(req, res) {
+    const sql = `
+    SELECT users.id, 
+        users.username, 
+        users.email, 
+        users.profile_image, 
+        users.role, 
+        users.registered_at, 
+        users.status,
+        COUNT(posts.id) AS post_count  -- Make sure post_count is being calculated
+    FROM users
+    LEFT JOIN posts ON users.id = posts.user_id
+    GROUP BY users.id;
+    `;
+    try {
+        const result = await connection.execute(sql);
+        
+        return res.status(200).json({
+            status: 'success',
+            msg: 'Users fetched successfully',
+            list: result[0],
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            status: 'error',
+            msg: 'Server error. Failed to fetch users.',
+        });
+    }
+}
+
+
+
+
+
+
 export async function postGetAPI(req, res) {
     const sqlParams = [];
     let sqlFilter = '';

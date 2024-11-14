@@ -1,4 +1,5 @@
 import { MESSAGE_MAX_SIZE, MESSAGE_MIN_SIZE } from "../env.js";
+import { ROLE } from "./enum.js";
 
 export class IsValid {
     /**
@@ -67,6 +68,12 @@ export class IsValid {
     static email(text) {
         const minSize = 6;
         const maxSize = 50;
+        const localPartMaxSize = 64;
+        const domainPartMaxSize = 255;
+        const domainSubPartMaxSize = 63;
+        const abc = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-.';
+        const allowedLocalPartSymbols = abc + '_';
+        const allowedDomainPartSymbols = abc;
 
         if (typeof text !== 'string') {
             return [true, 'El. pastas turi buti teksto tipo.'];
@@ -80,7 +87,57 @@ export class IsValid {
             return [true, `El. pastas turi buti ne ilgesnis nei ${maxSize} simboliu.`];
         }
 
-        // TODO: aprasyti daugiau taisykliu
+        if (text.includes('..')) {
+            return [true, `El. pastas negali tureti dvieju is eiles einanciu tasku.`];
+        }
+
+        const parts = text.split('@');
+
+        if (parts.length < 2) {
+            return [true, `El. pastas turi tureti viena "@" simboli.`];
+        }
+
+        if (parts.length > 2) {
+            return [true, `El. pastas turi tureti tik viena "@" simboli.`];
+        }
+
+        const [localPart, domainPart] = parts;
+
+        if (localPart.length > localPartMaxSize) {
+            return [true, `El. pasto dalis prie "@" simboli negali virsyti ${localPartMaxSize} simboliu.`];
+        }
+
+        if (domainPart.length > domainPartMaxSize) {
+            return [true, `El. pasto dalis uz "@" simbolio negali virsyti ${domainPartMaxSize} simboliu.`];
+        }
+
+        if (domainPart.includes('_')) {
+            return [true, `El. pasto dalis uz "@" simbolio negali tureti "_" simbolio.`];
+        }
+
+        for (const s of localPart) {
+            if (!allowedLocalPartSymbols.includes(s)) {
+                return [true, `El. pasto dalis pries "@" simboli negali tureti "${s}" simbolio.`];
+            }
+        }
+
+        for (const s of domainPart) {
+            if (!allowedDomainPartSymbols.includes(s)) {
+                return [true, `El. pasto dalis uz "@" simbolio negali tureti "${s}" simbolio.`];
+            }
+        }
+
+        const domainSubParts = domainPart.split('.');
+
+        if (domainSubParts.length < 2) {
+            return [true, `El. pasto dalis uz "@" simbolio nepanasi i tikro el. pasto tiekejo adresa.`];
+        }
+
+        for (const part of domainSubParts) {
+            if (part.length > domainSubPartMaxSize) {
+                return [true, `El. pasto dalyje uz "@" simbolio tarp tasku esancios dalys negali virsyti ${domainSubPartMaxSize} simboliu kiekio.`];
+            }
+        }
 
         return [false, 'Ok'];
     }
@@ -120,6 +177,30 @@ export class IsValid {
 
         if (text.length > MESSAGE_MAX_SIZE) {
             return [true, `Zinute turi buti ne daugiau ${MESSAGE_MAX_SIZE} simboliu ilgio`];
+        }
+
+        return [false, 'Ok'];
+    }
+
+    static id(number) {
+        if (typeof number !== 'number'
+            || !Number.isInteger(number)
+            || number < 1
+        ) {
+            return [true, 'ID turi buti teigiamas sveikasis skaiciaus'];
+        }
+
+        return [false, 'Ok'];
+    }
+
+    static role(role) {
+        if (typeof role !== 'string') {
+            return [true, 'Role turi buti teksto tipo'];
+        }
+
+        const allowedOptions = Object.values(ROLE).filter(role => role !== ROLE.PUBLIC);
+        if (!allowedOptions.includes(role)) {
+            return [true, 'Galimos pasirinkti roles yra: ' + allowedOptions.join(', ')];
         }
 
         return [false, 'Ok'];

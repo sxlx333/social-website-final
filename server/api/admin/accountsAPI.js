@@ -5,7 +5,7 @@ import { IsValid } from "../../lib/IsValid.js";
 export async function accountsGetAPI(req, res) {
     try {
         const sql = `
-            SELECT users.id as id, role, email, username, profile_image, registered_at, status
+            SELECT users.id as id, role, email, post_count, username, profile_image, registered_at, status
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id;`;
@@ -26,7 +26,7 @@ export async function accountsGetAPI(req, res) {
 export async function accountsAdminsGetAPI(req, res) {
     try {
         const sql = `
-            SELECT users.id as id, role, email, username, profile_image, registered_at, status
+            SELECT users.id as id, role, email, post_count, username, profile_image, registered_at, status
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id
@@ -48,7 +48,7 @@ export async function accountsAdminsGetAPI(req, res) {
 export async function accountsUsersGetAPI(req, res) {
     try {
         const sql = `
-            SELECT users.id as id, role, email, username, profile_image, registered_at, status
+            SELECT users.id as id, role, email, post_count, username, profile_image, registered_at, status
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id
@@ -70,7 +70,7 @@ export async function accountsUsersGetAPI(req, res) {
 export async function accountsBlockedGetAPI(req, res) {
     try {
         const sql = `
-            SELECT users.id as id, role, email, username, profile_image, registered_at, status
+            SELECT users.id as id, role, email, post_count, username, profile_image, registered_at, status
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id

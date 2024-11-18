@@ -2,39 +2,42 @@
 
 #### Ateiciai / ant klaustuko
 
--   about us
--   legal:
-    -   privacy
-    -   cookies
--   help / faq
--   pricing
--   contact us
+- about us
+- legal:
+  - privacy
+  - cookies
+- help / faq
+- pricing
+- contact us
 
 ### Client
 
--   sutikimas su cookiais
--   feed page:
-    -   soninis meniu
--   post'o puslapis
+- sutikimas su cookiais
+- feed page:
+  - soninis meniu
+- post'o puslapis
+- user'io puslapis
+- pakviesti kitus draugus prisijungti prie sito soc tinklo
+  - automatiskai tarpusavyje tampa draugais
+  - prie invite nuorodos rodomas ja pasinaudojusiu nauju vartotoju kiekis
 
 ### Admin
 
--   dashboard
--   vartotoju sarasas
--   post'u sarasas
+- dashboard
+- post'u sarasas
 
 #### Ateiciai / ant klaustuko
 
--   contact us uzklausu sarasas
--   faq kategoriju saraso administravimas
--   faq saraso administravimas
+- contact us uzklausu sarasas
+- faq kategoriju saraso administravimas
+- faq saraso administravimas
 
 ## BACKEND
 
--   zinutes CRUD API:
-    -   put
-    -   delete
+- zinutes CRUD API:
+  - put
+  - delete
 
 ## LATER
 
--   padaryti, jog "Create post" formoje, aukstis automatiskai adaptuotusi prie parasyto turinio kiekio
+- padaryti, jog "Create post" formoje, aukstis automatiskai adaptuotusi prie parasyto turinio kiekio

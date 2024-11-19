@@ -1,5 +1,7 @@
+import { connection } from "../db.js";
 import { API_RESPONSE_STATUS } from "../lib/enum.js";
 import { IsValid } from "../lib/IsValid.js";
+
 export async function postLikePostAPI(req, res) {
   const requiredFields = [{ field: "postId", validation: IsValid.id }];
   const [isErr, errMessage] = IsValid.requiredFields(req.body, requiredFields);
@@ -21,6 +23,7 @@ export async function postLikePostAPI(req, res) {
       });
     }
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       status: API_RESPONSE_STATUS.ERROR,
       msg: "Serverio klaida. Nepavyko uzskaityti palaikinimo. Pabandykite veliau",

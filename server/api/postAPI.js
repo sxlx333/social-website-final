@@ -89,10 +89,18 @@ export async function postGetAPI(req, res) {
       posts.text,
       posts.created_at,
       posts.likes_count,
+      posts.dislikes_count,
+      posts.love_count,
       users.id as user_id,
       users.username,
       users.profile_image,
-      (SELECT count(*) % 2 FROM post_likes WHERE post_id = posts.id AND user_id = ?) as do_i_like
+      (
+        SELECT reaction_type_id 
+        FROM post_reactions 
+        WHERE 
+          post_reactions.post_id = posts.id AND 
+          post_reactions.user_id = ?
+      ) as my_reaction_id
 
         FROM posts 
         INNER JOIN users

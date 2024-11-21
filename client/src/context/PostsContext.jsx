@@ -114,17 +114,16 @@ export function PostsContextWrapper(props) {
 
   function removeMyPost() {}
 
-  function updateLikeCount(postId) {
+  function updateLikeCount(postId, reactionId) {
     setPosts((pre) =>
       pre.map((post) => {
         if (post.post_id === postId) {
           return {
             ...post,
-            do_i_like: post.do_i_like === 0 ? 1 : 0,
-            likes_count:
-              post.do_i_like === 0
-                ? post.likes_count + 1
-                : post.likes_count - 1,
+            my_reaction_id: post.my_reaction_id === reactionId ? 0 : reactionId,
+            likes_count: 0,
+            dislikes_count: 0,
+            love_count: 0,
           };
         } else {
           return post;

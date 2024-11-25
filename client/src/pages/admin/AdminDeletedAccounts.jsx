@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { PageTitle } from "../../components/admin/PageTitle";
 import { UserTable } from "../../components/admin/UserTable";
+
 export function AdminDeletedAccounts() {
   const [tableData, setTableData] = useState([]);
+
   useEffect(() => {
     fetch("http://localhost:5114/api/admin/accounts/deleted", {
       method: "GET",
@@ -16,6 +18,7 @@ export function AdminDeletedAccounts() {
       })
       .catch(console.error);
   }, []);
+
   return (
     <>
       <PageTitle title="Visos ištrintos paskyros" />

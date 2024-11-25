@@ -123,37 +123,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
 }
 .interactions .action {
   display: flex;
-  padding: 0.7rem 0.7rem;
+  padding: 0.1rem 0.7rem;
   align-items: center;
   justify-content: center;
-  border-radius: 0.7rem;
-  gap: 2px;
+  border-radius: 1.2rem;
 }
 .interactions .action.active {
   background-color: #36f;
   color: #eee;
 }
-.interactions .action:hover {
-  color: blue;
-  cursor: pointer;
-  background-color: rgb(245 245 245);
-}
 .interactions .action > img {
   height: 1.5rem;
 }
-.interactions > .action > span {
-  line-height: 2rem;
+.interactions .action > span {
+  line-height: 2em;
   font-size: 1rem;
   margin-left: 0.5em;
 }
 .commentForm {
   display: inline-block;
   width: 100%;
-  padding: 0 10px 10px 10px;
+  padding: 10px;
   border-top: 1px solid #ccc;
 }
 .commentForm > img {
@@ -169,40 +162,30 @@
   margin-left: 20px;
   float: left;
   position: relative;
-  display: flex;
-  flex-direction: column;
 }
 .commentForm > .form > textarea {
   display: inline-block;
   width: 100%;
   min-height: 40px;
-  height: auto;
+  height: 40px;
   max-height: 200px;
   padding: 10px;
-  padding-bottom: 40px;
   line-height: 20px;
   resize: vertical;
   overflow: hidden;
   border-radius: 20px;
   outline: none;
-  box-sizing: border-box;
 }
 .commentForm > .form > .icons {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  margin-top: 8px;
-  position: relative;
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
 }
 .commentForm > .form > .icons > img {
+  float: left;
   padding: 5px;
   height: 32px;
-  cursor: pointer;
 }
 .post + .post {
   margin-top: 20px;
-}
-.commentForm > .form > .icons > img:hover {
-  background-color: rgb(223, 223, 223);
-  cursor: pointer;
 }

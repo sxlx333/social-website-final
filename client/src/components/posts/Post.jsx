@@ -1,17 +1,21 @@
 /* eslint-disable react/prop-types */
+import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import style from "./Post.module.css";
 import { UserContext } from "../../context/UserContext";
 import { formatTime } from "../../lib/formatTime";
-import thumbIcon from "../../assets/thumb.svg";
+import thumbUpIcon from "../../assets/thumb-up.svg";
+import thumbDownIcon from "../../assets/thumb-down.svg";
+import heartIcon from "../../assets/heart.svg";
 import commentIcon from "../../assets/comment.svg";
 import smileIcon from "../../assets/smile.svg";
 import cameraIcon from "../../assets/camera.svg";
 import gifIcon from "../../assets/gif.svg";
 import userDefaultProfile from "../../assets/userDefaultProfile.svg";
-import thumbDownIcon from "../../assets/thumbsDown.svg";
-import heartIcon from "../../assets/heart.svg";
-import { API_RESPONSE_STATUS } from "../../../../server/lib/enum";
+import {
+  API_RESPONSE_STATUS,
+  REACTION_TYPE,
+} from "../../../../server/lib/enum";
 import { PostsContext } from "../../context/PostsContext";
 
 export function Post({ post }) {
@@ -21,35 +25,14 @@ export function Post({ post }) {
   const { userId, profileImage } = useContext(UserContext);
   const { updateLikeCount } = useContext(PostsContext);
   const [postTextFullSize, setPostTextFullSize] = useState(
-    post.text.length <= softCutLimit
+    post.text.length < hardCutLimit
   );
 
   const text = postTextFullSize
     ? post.text
     : post.text.slice(0, softCutLimit).trim() + "...";
 
-  function handleLikeClick(reactionId) {
-    fetch("http://localhost:5114/api/post-like", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        postId: post.post_id,
-        reactionId: reactionId,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === API_RESPONSE_STATUS.SUCCESS) {
-          updateLikeCount(post.post_id, reactionId);
-        }
-      })
-      .catch(console.error);
-  }
-
-  function handleLikeClick(reactionId) {
+  function handleLikeClick(reactionTypeId) {
     fetch("http://localhost:5114/api/post-reaction", {
       method: "POST",
       headers: {
@@ -58,13 +41,13 @@ export function Post({ post }) {
       credentials: "include",
       body: JSON.stringify({
         postId: post.post_id,
-        reactionId: reactionId,
+        reactionTypeId: reactionTypeId,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.status === API_RESPONSE_STATUS.SUCCESS) {
-          updateLikeCount(post.post_id, reactionId);
+          updateLikeCount(post.post_id, reactionTypeId);
         }
       })
       .catch(console.error);
@@ -87,20 +70,12 @@ export function Post({ post }) {
       <div className={style.content}>
         <p className={post.text.length < 100 ? style.bigText : ""}>
           {text}
-          {post.text.length > softCutLimit && !postTextFullSize && (
+          {text !== post.text && (
             <span
-              onClick={() => setPostTextFullSize(true)}
+              onClick={() => setPostTextFullSize((pre) => !pre)}
               className={style.more}
             >
-              Skaityti daugiau
-            </span>
-          )}
-          {postTextFullSize && post.text.length > hardCutLimit && (
-            <span
-              onClick={() => setPostTextFullSize(false)}
-              className={style.more}
-            >
-              Skaityti mažiau
+              Skaityti {postTextFullSize ? "mažiau" : "daugiau"}
             </span>
           )}
         </p>
@@ -108,37 +83,33 @@ export function Post({ post }) {
       <div className={style.interactions}>
         <div className={style.reactions}>
           <div
-            onClick={() => handleLikeClick(1)}
+            onClick={() => handleLikeClick(REACTION_TYPE.LIKE)}
             className={`${style.action} ${
               post.my_reaction_id === 1 ? style.active : ""
             }`}
           >
-            <img src={thumbIcon} alt="Patinka" />
-            <span>Patinka</span>
+            <img src={thumbUpIcon} alt="Patinka" />
             {post.likes_count > 0 && <span>({post.likes_count})</span>}
           </div>
           <div
-            onClick={() => handleLikeClick(2)}
+            onClick={() => handleLikeClick(REACTION_TYPE.DISLIKE)}
             className={`${style.action} ${
               post.my_reaction_id === 2 ? style.active : ""
             }`}
           >
             <img src={thumbDownIcon} alt="Nepatinka" />
-            <span>Nepatinka</span>
-            {post.dislikes_count > 0 && <span>({post.dislikes_count})</span>}
+            {post.dislike_count > 0 && <span>({post.dislike_count})</span>}
           </div>
           <div
-            onClick={() => handleLikeClick(3)}
+            onClick={() => handleLikeClick(REACTION_TYPE.LOVE)}
             className={`${style.action} ${
               post.my_reaction_id === 3 ? style.active : ""
             }`}
           >
-            <img src={heartIcon} alt="myliu" />
-            <span>Myliu</span>
+            <img src={heartIcon} alt="Myliu" />
             {post.love_count > 0 && <span>({post.love_count})</span>}
           </div>
         </div>
-
         <div className={style.action}>
           <img src={commentIcon} alt="Komentarai" />
           <span>Komentarai</span>
@@ -146,7 +117,7 @@ export function Post({ post }) {
         </div>
       </div>
       <div className={style.commentForm}>
-        <img src={profileImage || userDefaultProfile} alt="Mano nuotrauka" />
+        <img src={profileImage || userDefaultProfile} alt="My photo" />
         <div className={style.form}>
           <textarea></textarea>
           <div className={style.icons}>

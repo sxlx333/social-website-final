@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
+import { REACTION_TYPE } from "../../../server/lib/enum";
 
 export const initialPostsContext = {
   posts: [],
@@ -89,25 +90,18 @@ export function PostsContextWrapper(props) {
 
   async function loadOlderPosts() {
     const lastPostId = posts.at(-1)?.post_id ?? 0;
-    try {
-      const response = await fetch(
-        `http://localhost:5114/api/post/old/${lastPostId}`,
-        {
-          method: "GET",
-          credentials: "include",
-        }
-      );
-      const data = await response.json();
-
-      if (data.posts.length > 0) {
-        setPosts((prevPosts) => [...prevPosts, ...data.posts]);
-      }
-
-      return data.posts;
-    } catch (error) {
-      console.error("Error loading older posts:", error);
-      return [];
-    }
+    return fetch("http://localhost:5114/api/post/old/" + lastPostId, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setPosts((pre) => [...pre, ...data.posts]);
+      })
+      .catch((err) => {
+        console.error(err);
+        return [];
+      });
   }
 
   function addMyPost() {}
@@ -120,10 +114,31 @@ export function PostsContextWrapper(props) {
         if (post.post_id === postId) {
           return {
             ...post,
-            my_reaction_id: post.my_reaction_id === reactionId ? 0 : reactionId,
-            likes_count: 0,
-            dislikes_count: 0,
-            love_count: 0,
+            my_reaction_id:
+              post.my_reaction_id === reactionId
+                ? REACTION_TYPE.NONE
+                : reactionId,
+            likes_count:
+              post.likes_count +
+              (post.my_reaction_id === REACTION_TYPE.LIKE ? -1 : 0) +
+              (reactionId === REACTION_TYPE.LIKE &&
+              post.my_reaction_id !== reactionId
+                ? 1
+                : 0),
+            dislike_count:
+              post.dislike_count +
+              (post.my_reaction_id === REACTION_TYPE.DISLIKE ? -1 : 0) +
+              (reactionId === REACTION_TYPE.DISLIKE &&
+              post.my_reaction_id !== reactionId
+                ? 1
+                : 0),
+            love_count:
+              post.love_count +
+              (post.my_reaction_id === REACTION_TYPE.LOVE ? -1 : 0) +
+              (reactionId === REACTION_TYPE.LOVE &&
+              post.my_reaction_id !== reactionId
+                ? 1
+                : 0),
           };
         } else {
           return post;

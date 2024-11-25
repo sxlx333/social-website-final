@@ -5,7 +5,7 @@ import { IsValid } from "../../lib/IsValid.js";
 export async function accountsGetAPI(req, res) {
   try {
     const sql = `
-            SELECT users.id as id, role, email, post_count, username, profile_image, registered_at, status
+            SELECT users.id as id, role, email, username, profile_image, registered_at, status
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id;`;
@@ -26,7 +26,7 @@ export async function accountsGetAPI(req, res) {
 export async function accountsAdminsGetAPI(req, res) {
   try {
     const sql = `
-            SELECT users.id as id, role, email, post_count, username, profile_image, registered_at, status
+            SELECT users.id as id, role, email, username, profile_image, registered_at, status
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id
@@ -48,7 +48,7 @@ export async function accountsAdminsGetAPI(req, res) {
 export async function accountsUsersGetAPI(req, res) {
   try {
     const sql = `
-            SELECT users.id as id, role, email, post_count, username, profile_image, registered_at, status
+            SELECT users.id as id, role, email, username, profile_image, registered_at, status
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id
@@ -70,12 +70,13 @@ export async function accountsUsersGetAPI(req, res) {
 export async function accountsBlockedGetAPI(req, res) {
   try {
     const sql = `
-            SELECT users.id as id, role, email, post_count, username, profile_image, registered_at, status
+            SELECT users.id as id, role, email, username, profile_image, registered_at, status
             FROM users
             INNER JOIN roles
                 ON roles.id = users.role_id
-                WHERE users.status = 3 AND email NOT LIKE "%_deactivated";`;
+            WHERE users.status = 3 AND email NOT LIKE "%_deactivated";`;
     const [selectRes] = await connection.execute(sql);
+
     return res.json({
       status: API_RESPONSE_STATUS.SUCCESS,
       list: selectRes,
@@ -87,14 +88,15 @@ export async function accountsBlockedGetAPI(req, res) {
     });
   }
 }
+
 export async function accountsDeletedGetAPI(req, res) {
   try {
     const sql = `
-                    SELECT users.id as id, role, email, username, profile_image, registered_at, status
-                    FROM users
-                    INNER JOIN roles
-                        ON roles.id = users.role_id
-                    WHERE email LIKE "%_deactivated";`;
+            SELECT users.id as id, role, email, username, profile_image, registered_at, status
+            FROM users
+            INNER JOIN roles
+                ON roles.id = users.role_id
+            WHERE email LIKE "%_deactivated";`;
     const [selectRes] = await connection.execute(sql);
 
     return res.json({
@@ -173,7 +175,6 @@ export async function accountDeleteAPI(req, res) {
                 email = CONCAT((SELECT email FROM users WHERE id = ?), ?),
                 password_hash = ?
             WHERE id = ?;`;
-
     const [updateRes] = await connection.execute(sql, [
       userId,
       deactivation,
@@ -195,7 +196,6 @@ export async function accountDeleteAPI(req, res) {
       msg: "Paskyra istrinta sekmingai",
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       status: API_RESPONSE_STATUS.ERROR,
       msg: "Serverio klaida, bandant istrinti paskyra",

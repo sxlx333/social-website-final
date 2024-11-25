@@ -1,3 +1,3 @@
 export function homePage(_req, res) {
-    return res.send('HOME PAGE');
+  return res.send("HOME PAGE");
 }

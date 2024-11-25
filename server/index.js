@@ -14,8 +14,6 @@ import { adminsOnly, usersOnly } from "./middleware/authorizedAccessOnly.js";
 import { notLoggedInAccessOnly } from "./middleware/notLoggedInAccessOnly.js";
 import { uploadApiRouter } from "./api/uploadAPI.js";
 import { adminApiRouter } from "./router/adminRouter.js";
-import { getUsersWithPostCount } from "./api/postAPI.js";
-import { accountsAdminsGetAPI } from "./api/admin/accountsAPI.js";
 import { postReactionPostAPI } from "./api/reactionAPI.js";
 
 const app = express();
@@ -56,15 +54,14 @@ app.get("/api/post", usersOnly, postGetAPI);
 app.get("/api/post/initial", usersOnly, postGetAPI);
 app.get("/api/post/new/:newerId", usersOnly, postGetAPI);
 app.get("/api/post/old/:olderId", usersOnly, postGetAPI);
-app.get("/api/users", getUsersWithPostCount);
 // app.put('/api/post', usersOnly, postPutAPI);
 // app.delete('/api/post', usersOnly, postDeleteAPI);
 
 app.post("/api/post-reaction", usersOnly, postReactionPostAPI);
 
-app.use("/api/admin", adminsOnly, adminApiRouter);
-app.get("/api/admin/accounts/admins", adminsOnly, accountsAdminsGetAPI);
 app.use("/api/upload", usersOnly, uploadApiRouter);
+
+app.use("/api/admin", adminsOnly, adminApiRouter);
 
 app.get("*", notFoundPage);
 

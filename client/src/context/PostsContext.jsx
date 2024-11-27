@@ -84,35 +84,43 @@ export function PostsContextWrapper(props) {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success" && Array.isArray(data.posts)) {
-          return data.posts; // Only return posts if it's an array
+          return data.posts;
         } else {
           console.error(
             "Unexpected API response: data.posts is not an array",
             data
           );
-          return []; // Fallback to empty array
+          return [];
         }
       })
       .catch((err) => {
         console.error("Error fetching new posts:", err);
-        return []; // Fallback to empty array
+        return [];
       });
   }
 
   async function loadOlderPosts() {
     const lastPostId = posts.at(-1)?.post_id ?? 0;
-    return fetch("http://localhost:5114/api/post/old/" + lastPostId, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setPosts((pre) => [...pre, ...data.posts]);
-      })
-      .catch((err) => {
-        console.error(err);
+    try {
+      const res = await fetch(
+        "http://localhost:5114/api/post/old/" + lastPostId,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.status === "success" && Array.isArray(data.posts)) {
+        setPosts((prevPosts) => [...prevPosts, ...data.posts]);
+        return data.posts;
+      } else {
         return [];
-      });
+      }
+    } catch (err) {
+      return [];
+    }
   }
 
   function addMyPost() {}

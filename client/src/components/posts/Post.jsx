@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import style from "./Post.module.css";
 import { UserContext } from "../../context/UserContext";
@@ -12,10 +10,7 @@ import smileIcon from "../../assets/smile.svg";
 import cameraIcon from "../../assets/camera.svg";
 import gifIcon from "../../assets/gif.svg";
 import userDefaultProfile from "../../assets/userDefaultProfile.svg";
-import {
-  API_RESPONSE_STATUS,
-  REACTION_TYPE,
-} from "../../../../server/lib/enum";
+import { REACTION_TYPE } from "../../../../server/lib/enum";
 import { PostsContext } from "../../context/PostsContext";
 
 export function Post({ post }) {
@@ -24,13 +19,18 @@ export function Post({ post }) {
 
   const { userId, profileImage } = useContext(UserContext);
   const { updateLikeCount } = useContext(PostsContext);
+
   const [postTextFullSize, setPostTextFullSize] = useState(
     post.text.length < hardCutLimit
   );
+  const [isTextAreaFocused, setIsTextAreaFocused] = useState(false); // State to track textarea focus
 
   const text = postTextFullSize
     ? post.text
     : post.text.slice(0, softCutLimit).trim() + "...";
+
+  const shouldDisableShowLess =
+    postTextFullSize && post.text.length <= softCutLimit;
 
   function handleLikeClick(reactionTypeId) {
     fetch("http://localhost:5114/api/post-reaction", {
@@ -46,7 +46,7 @@ export function Post({ post }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === API_RESPONSE_STATUS.SUCCESS) {
+        if (data.status === "success") {
           updateLikeCount(post.post_id, reactionTypeId);
         }
       })
@@ -70,12 +70,16 @@ export function Post({ post }) {
       <div className={style.content}>
         <p className={post.text.length < 100 ? style.bigText : ""}>
           {text}
-          {text !== post.text && (
+          {post.text.length > softCutLimit && (
             <span
-              onClick={() => setPostTextFullSize((pre) => !pre)}
+              onClick={() => setPostTextFullSize((prev) => !prev)}
               className={style.more}
             >
-              Skaityti {postTextFullSize ? "mažiau" : "daugiau"}
+              {postTextFullSize && shouldDisableShowLess
+                ? "Rodyti mažiau"
+                : postTextFullSize
+                ? "Rodyti mažiau"
+                : "Skaityti daugiau"}
             </span>
           )}
         </p>
@@ -89,6 +93,7 @@ export function Post({ post }) {
             }`}
           >
             <img src={thumbUpIcon} alt="Patinka" />
+            <span>Patinka</span>
             {post.likes_count > 0 && <span>({post.likes_count})</span>}
           </div>
           <div
@@ -98,6 +103,7 @@ export function Post({ post }) {
             }`}
           >
             <img src={thumbDownIcon} alt="Nepatinka" />
+            <span>Nepatinka</span>
             {post.dislikes_count > 0 && <span>({post.dislikes_count})</span>}
           </div>
           <div
@@ -107,6 +113,7 @@ export function Post({ post }) {
             }`}
           >
             <img src={heartIcon} alt="Myliu" />
+            <span>Myliu</span>
             {post.love_count > 0 && <span>({post.love_count})</span>}
           </div>
         </div>
@@ -119,7 +126,13 @@ export function Post({ post }) {
       <div className={style.commentForm}>
         <img src={profileImage || userDefaultProfile} alt="My photo" />
         <div className={style.form}>
-          <textarea></textarea>
+          <textarea
+            onFocus={() => setIsTextAreaFocused(true)}
+            onBlur={() => setIsTextAreaFocused(false)}
+            style={{
+              height: isTextAreaFocused ? "100px" : "40px",
+            }}
+          ></textarea>
           <div className={style.icons}>
             <img src={smileIcon} alt="Emoji" />
             <img src={cameraIcon} alt="Įkelti nuotrauką" />

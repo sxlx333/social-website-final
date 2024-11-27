@@ -79,13 +79,14 @@ async function addPostReaction(userId, postId, reactionTypeId) {
       return false;
     }
   } catch (error) {
+    console.error("Database error1:", error);
     return false;
   }
 
   try {
     let column = "likes_count";
     if (reactionTypeId === 2) {
-      column = "dislike_count";
+      column = "dislikes_count";
     }
     if (reactionTypeId === 3) {
       column = "love_count";
@@ -98,40 +99,53 @@ async function addPostReaction(userId, postId, reactionTypeId) {
       return false;
     }
   } catch (error) {
+    console.error("Database error2:", error);
     return false;
   }
 
   return true;
 }
 
-async function deletePostReaction(postId, reactionTypeId, prereactionTypeId) {
+async function deletePostReaction(postId, reactionTypeId, preReactionId) {
   try {
+    // Log to confirm we're deleting a reaction
+    console.log(`Attempting to delete reaction with ID: ${preReactionId}`);
+
+    // Deleting the reaction from the post_reactions table
     const sql = "DELETE FROM post_reactions WHERE id = ?;";
-    const [result] = await connection.execute(sql, [prereactionTypeId]);
+    const [result] = await connection.execute(sql, [preReactionId]);
 
     if (result.affectedRows !== 1) {
+      console.error(`Failed to delete reaction for post ${postId}.`);
       return false;
     }
   } catch (error) {
+    console.error("Error while deleting post reaction:", error);
     return false;
   }
 
   try {
-    let column = "likes_count";
-    if (reactionTypeId === 2) {
-      column = "dislike_count";
-    }
-    if (reactionTypeId === 3) {
+    let column = "";
+    if (reactionTypeId === 1) {
+      column = "likes_count";
+    } else if (reactionTypeId === 2) {
+      column = "dislikes_count"; // Ensure this is correct
+    } else if (reactionTypeId === 3) {
       column = "love_count";
     }
 
+    // Decrease the count by 1
     const sql = `UPDATE posts SET ${column} = ${column} - 1 WHERE id = ?;`;
     const [updateResult] = await connection.execute(sql, [postId]);
 
     if (updateResult.affectedRows !== 1) {
+      console.error(
+        `Failed to update post count for ${column} on post ${postId}`
+      );
       return false;
     }
   } catch (error) {
+    console.error("Error while updating post reaction count:", error);
     return false;
   }
 
@@ -155,6 +169,7 @@ async function updatePostReaction(
       return false;
     }
   } catch (error) {
+    console.error("Database error5:", error);
     return false;
   }
 
@@ -164,19 +179,21 @@ async function updatePostReaction(
       column = "likes_count";
     }
     if (preReactionTypeId === 2) {
-      column = "dislike_count";
+      column = "dislikes_count";
     }
     if (preReactionTypeId === 3) {
       column = "love_count";
     }
 
-    const sql = `UPDATE posts SET ${column} = ${column} - 1 WHERE id = ?;`;
+    // Use GREATEST to avoid going below 0
+    const sql = `UPDATE posts SET ${column} = GREATEST(${column} - 1, 0) WHERE id = ?;`;
     const [updateResult] = await connection.execute(sql, [postId]);
 
     if (updateResult.affectedRows !== 1) {
       return false;
     }
   } catch (error) {
+    console.error("Database error6:", error);
     return false;
   }
 
@@ -186,7 +203,7 @@ async function updatePostReaction(
       column = "likes_count";
     }
     if (reactionTypeId === 2) {
-      column = "dislike_count";
+      column = "dislikes_count";
     }
     if (reactionTypeId === 3) {
       column = "love_count";
@@ -199,6 +216,7 @@ async function updatePostReaction(
       return false;
     }
   } catch (error) {
+    console.error("Database error7:", error);
     return false;
   }
 

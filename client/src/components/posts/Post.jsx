@@ -98,7 +98,7 @@ export function Post({ post }) {
             }`}
           >
             <img src={thumbDownIcon} alt="Nepatinka" />
-            {post.dislike_count > 0 && <span>({post.dislike_count})</span>}
+            {post.dislikes_count > 0 && <span>({post.dislikes_count})</span>}
           </div>
           <div
             onClick={() => handleLikeClick(REACTION_TYPE.LOVE)}

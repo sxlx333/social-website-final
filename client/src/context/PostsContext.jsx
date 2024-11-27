@@ -57,7 +57,14 @@ export function PostsContextWrapper(props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        setPosts(() => [...data.posts]);
+        if (Array.isArray(data.posts)) {
+          setPosts(() => [...data.posts]);
+        } else {
+          console.error(
+            "Unexpected API response: data.posts is not an array",
+            data
+          );
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -66,25 +73,29 @@ export function PostsContextWrapper(props) {
 
   async function loadNewPosts() {
     if (!isLoggedIn) {
-      return;
+      return [];
     }
 
     const newestPostId = posts.at(0)?.post_id ?? 0;
-    return fetch("http://localhost:5114/api/post/new/" + newestPostId, {
+    return fetch(`http://localhost:5114/api/post/new/${newestPostId}`, {
       method: "GET",
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === "error" && data.isLoggedIn === false) {
-          logout();
-          return [];
+        if (data.status === "success" && Array.isArray(data.posts)) {
+          return data.posts; // Only return posts if it's an array
+        } else {
+          console.error(
+            "Unexpected API response: data.posts is not an array",
+            data
+          );
+          return []; // Fallback to empty array
         }
-        return data.posts;
       })
       .catch((err) => {
-        console.error(err);
-        return [];
+        console.error("Error fetching new posts:", err);
+        return []; // Fallback to empty array
       });
   }
 
@@ -125,8 +136,8 @@ export function PostsContextWrapper(props) {
               post.my_reaction_id !== reactionId
                 ? 1
                 : 0),
-            dislike_count:
-              post.dislike_count +
+            dislikes_count:
+              post.dislikes_count +
               (post.my_reaction_id === REACTION_TYPE.DISLIKE ? -1 : 0) +
               (reactionId === REACTION_TYPE.DISLIKE &&
               post.my_reaction_id !== reactionId

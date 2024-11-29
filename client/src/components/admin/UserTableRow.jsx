@@ -57,6 +57,7 @@ export function UserTableRow({ userData }) {
       </td>
       <td>{userData.username}</td>
       <td>{userData.email}</td>
+      <td>{userData.post_count}</td>
       <td>
         <UserRoleSelect userId={userData.id} currentRole={userData.role} />
       </td>

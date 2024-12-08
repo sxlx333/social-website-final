@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
-import logo from "../assets/react.svg";
+import { Link } from 'react-router-dom';
+import logo from '../assets/stork-logo.webp';
+import style from './Footer.module.css';
 
 export function Footer() {
   return (
@@ -13,7 +14,7 @@ export function Footer() {
           href="/"
           className="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
         >
-          <img src={logo} alt="Logo" />
+          <img src={logo} alt="Logo" className={style.logo} />
         </a>
 
         <ul className="nav col-md-4 justify-content-end">

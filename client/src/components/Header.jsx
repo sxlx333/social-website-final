@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom';
-import logo from '../assets/react.svg';
+import logo from '../assets/stork-logo.webp';
 import { MenuLink } from './MenuLink';
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
+import style from './Header.module.css';
 
 export function Header({ fullWidth }) {
   const { isLoggedIn, role, logout } = useContext(UserContext);
@@ -29,7 +30,7 @@ export function Header({ fullWidth }) {
             to="/"
             className="d-inline-flex link-body-emphasis text-decoration-none"
           >
-            <img src={logo} alt="Logo" />
+            <img src={logo} alt="Logo" className={style.logo} />
           </Link>
           {isLoggedIn && role === 'user' && 'Vartotojas'}
           {isLoggedIn && role === 'admin' && 'Administratorius'}

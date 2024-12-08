@@ -1,0 +1,30 @@
+.homeRegistrationContainer {
+  background-image: url('../../assets/sign-up.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 5%;
+  min-height: 66vh;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.linkToLoginPara {
+  font-weight: bold;
+}
+.opacityBackground {
+  background-color: rgba(49, 49, 49, 0.5);
+  z-index: 2;
+  padding: 50px;
+  width: 450px;
+  height: 529px;
+  display: flex;
+  flex-direction: column;
+  gap: 83px;
+  justify-content: center;
+  align-items: start;
+  border-radius: 4%;
+  color: #fff;
+}

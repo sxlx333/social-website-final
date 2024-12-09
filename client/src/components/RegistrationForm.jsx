@@ -1,13 +1,15 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import styles from './RegistrationForm.module.css';
+import arrowRightIcon from '../assets/arrow-left.svg';
 
 export function RegistrationForm() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [checked, setChecked] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertColor, setAlertColor] = useState("alert-info");
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertColor, setAlertColor] = useState('alert-info');
 
   function handleUsernameChange(event) {
     setUsername(event.target.value);
@@ -29,42 +31,39 @@ export function RegistrationForm() {
     event.preventDefault();
 
     if (!checked) {
-      console.error("Butina sutikti su salygomis!!!");
+      console.error('Butina sutikti su salygomis!!!');
       return;
     }
 
-    fetch("http://localhost:5114/api/register", {
-      method: "POST",
+    fetch('http://localhost:5114/api/register', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify({ username, email, password }),
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === "success") {
-          setAlertMessage(() => "Registracija sėkminga. Prisijunkite.");
-          setAlertColor(() => "alert-success");
-        } else if (data.status === "error") {
+        if (data.status === 'success') {
+          setAlertMessage(() => 'Registracija sėkminga. Prisijunkite.');
+          setAlertColor(() => 'alert-success');
+        } else if (data.status === 'error') {
           setAlertMessage(() => data.msg);
-          setAlertColor(() => "alert-danger");
+          setAlertColor(() => 'alert-danger');
         } else {
-          setAlertMessage(() => "Nežinoma klaida.");
-          setAlertColor(() => "alert-warning");
+          setAlertMessage(() => 'Nežinoma klaida.');
+          setAlertColor(() => 'alert-warning');
         }
       })
       .catch(() => {
-        setAlertMessage(() => "Registracija nepavyko. Pabandykite vėliau.");
-        setAlertColor(() => "alert-danger");
+        setAlertMessage(() => 'Registracija nepavyko. Pabandykite vėliau.');
+        setAlertColor(() => 'alert-danger');
       });
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="p-4 p-md-5 border rounded-3 bg-body-tertiary"
-    >
+    <form onSubmit={handleSubmit} className={styles.formInRegister}>
       {alertMessage && (
         <div className={`alert ${alertColor}`} role="alert">
           {alertMessage}
@@ -112,11 +111,11 @@ export function RegistrationForm() {
             onChange={handleTosChange}
             type="checkbox"
             value="tos"
-            checked={checked ? "checked" : ""}
+            checked={checked ? 'checked' : ''}
             required="required"
-          />{" "}
+          />{' '}
           Sutinku su
-        </label>{" "}
+        </label>{' '}
         <Link to="/tos" target="_blank">
           paslaugos teikimo sąlygomis
         </Link>
@@ -124,6 +123,11 @@ export function RegistrationForm() {
       </div>
       <button className="w-100 btn btn-lg btn-primary" type="submit">
         Registruotis
+        <img
+          src={arrowRightIcon}
+          alt="Arrow Left"
+          className={styles.arrowIcon}
+        />
       </button>
     </form>
   );

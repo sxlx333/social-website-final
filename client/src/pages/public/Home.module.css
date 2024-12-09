@@ -13,18 +13,44 @@
 
 .linkToLoginPara {
   font-weight: bold;
+  color: #fff;
+}
+.linkToLoginPara:hover {
+  color: #b9b9b9;
 }
 .opacityBackground {
-  background-color: rgba(49, 49, 49, 0.5);
+  background-color: rgba(49, 49, 49, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 2;
-  padding: 50px;
+  padding: 27px;
   width: 450px;
   height: 529px;
   display: flex;
   flex-direction: column;
-  gap: 83px;
+  gap: 200px;
   justify-content: center;
   align-items: start;
   border-radius: 4%;
   color: #fff;
+}
+
+.homeRegisterTitle {
+  padding: 10px;
+  background: linear-gradient(
+    150deg,
+    rgba(114, 137, 234, 0.5),
+    rgba(94, 115, 149, 1)
+  );
+  width: max-content;
+}
+.lineBreak {
+  width: 5rem;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.twoSectionChildContainer {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 5%;
 }

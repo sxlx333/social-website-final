@@ -4,7 +4,7 @@ import logo from '../assets/stork-logo.webp';
 import { MenuLink } from './MenuLink';
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
-import style from './Header.module.css';
+import styles from './Header.module.css';
 
 export function Header({ fullWidth }) {
   const { isLoggedIn, role, logout } = useContext(UserContext);
@@ -24,13 +24,15 @@ export function Header({ fullWidth }) {
 
   return (
     <div className={fullWidth === true ? 'container-fluid' : 'container'}>
-      <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <header
+        className={`d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 ${styles.headerContainer}`}
+      >
         <div className="col-md-2 mb-2 mb-md-0">
           <Link
             to="/"
             className="d-inline-flex link-body-emphasis text-decoration-none"
           >
-            <img src={logo} alt="Logo" className={style.logo} />
+            <img src={logo} alt="Logo" className={styles.logo} />
           </Link>
           {isLoggedIn && role === 'user' && 'Vartotojas'}
           {isLoggedIn && role === 'admin' && 'Administratorius'}

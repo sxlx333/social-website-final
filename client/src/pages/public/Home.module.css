@@ -1,3 +1,11 @@
+main {
+  margin-top: 100px;
+}
+
+.twoSectionContainer {
+  margin-top: 100px;
+}
+
 .homeRegistrationContainer {
   background-image: url('../../assets/sign-up.webp');
   background-size: cover;
@@ -39,8 +47,8 @@
   padding: 10px;
   background: linear-gradient(
     150deg,
-    rgba(114, 137, 234, 0.5),
-    rgba(94, 115, 149, 1)
+    rgba(114, 137, 234, 0.3),
+    rgba(94, 115, 149, 0.3)
   );
   width: max-content;
 }

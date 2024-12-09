@@ -1,3 +1,12 @@
 .logo {
   width: 47px;
 }
+.headerContainer {
+  position: fixed;
+  top: 0; /* Fixes the header at the top */
+  left: 0; /* Ensures the header is aligned to the left */
+  width: 100%; /* Ensures the header spans the full width of the viewport */
+  z-index: 1030; /* Ensures it's above other content */
+  background-color: #fff; /* Optional: Sets a background color to prevent content from showing through */
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05); /* Optional: Adds a subtle shadow under the header */
+}

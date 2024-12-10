@@ -1,9 +1,10 @@
-import { LoginForm } from "../../components/LoginForm";
+import { LoginForm } from '../../components/LoginForm';
+import styles from './Login.module.css';
 
 export function Login() {
   return (
     <main>
-      <div className="container px-4">
+      <div className={`container px-4 ${styles.loginTextContainer}`}>
         <div className="row">
           <h1 className="text-center">Prisijungti</h1>
         </div>

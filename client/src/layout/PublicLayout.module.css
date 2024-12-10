@@ -1,0 +1,13 @@
+.public-layout header {
+  height: 76px;
+}
+
+.public-layout footer {
+  height: 76px;
+}
+
+.content {
+  min-height: calc(100vh - 76px - 100px);
+  display: flex;
+  flex-direction: column;
+}

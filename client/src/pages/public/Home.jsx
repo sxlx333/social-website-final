@@ -15,7 +15,7 @@ export function Home() {
             <div className={styles.opacityBackground}>
               <div className="homeRegisterTitle">
                 <h1
-                  className={`display-8 fw-bold lh-1 mb-3 ${styles.homeRegisterTitle}`}
+                  className={`display-5 fw-bold lh-1 mb-3 ${styles.homeRegisterTitle}`}
                 >
                   Registruokitės
                 </h1>

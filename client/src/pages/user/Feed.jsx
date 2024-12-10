@@ -1,7 +1,8 @@
-import { useContext, useState } from "react";
-import { FeedForm } from "../../components/feed-form/FeedForm";
-import { PostsContext } from "../../context/PostsContext";
-import { Post } from "../../components/posts/Post";
+import { useContext, useState } from 'react';
+import { FeedForm } from '../../components/feed-form/FeedForm';
+import { PostsContext } from '../../context/PostsContext';
+import { Post } from '../../components/posts/Post';
+import styles from './Feed.module.css';
 
 export function Feed() {
   const { posts, loadOlderPosts } = useContext(PostsContext);
@@ -17,15 +18,15 @@ export function Feed() {
     try {
       const newPosts = await loadOlderPosts();
       if (newPosts && newPosts.length === 0) {
-        setHasMorePosts(false); // No more posts
+        setHasMorePosts(false);
       }
     } catch (error) {
-      console.error("Error loading older posts:", error);
+      console.error('Error loading older posts:', error);
     }
   };
 
   return (
-    <main>
+    <main className={styles.mainContainer}>
       <div className="container px-4">
         <div className="row align-items-center g-lg-5">
           <FeedForm />

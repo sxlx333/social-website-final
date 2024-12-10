@@ -1,9 +1,10 @@
-import { RegistrationForm } from "../../components/RegistrationForm";
+import { RegistrationForm } from '../../components/RegistrationForm';
+import styles from './Register.module.css';
 
 export function Register() {
   return (
     <main>
-      <div className="container px-4">
+      <div className={`container px-4 ${styles.createAccContainer}`}>
         <div className="row">
           <h1 className="text-center">Susikurti paskyra</h1>
         </div>

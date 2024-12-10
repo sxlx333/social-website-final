@@ -1,15 +1,16 @@
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
+import styles from './LoginForm.module.css';
 
 export function LoginForm() {
   const { login } = useContext(UserContext);
 
   // TODO: kai darbai bus baigti - pasalinti email/password reiksmes
-  const [email, setEmail] = useState("chuck@norris.com");
-  const [password, setPassword] = useState("chuck@norris.comchuck@norris.com");
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertColor, setAlertColor] = useState("alert-info");
+  const [email, setEmail] = useState('chuck@norris.com');
+  const [password, setPassword] = useState('chuck@norris.comchuck@norris.com');
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertColor, setAlertColor] = useState('alert-info');
 
   const navigate = useNavigate();
 
@@ -24,32 +25,32 @@ export function LoginForm() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    fetch("http://localhost:5114/api/login", {
-      method: "POST",
+    fetch('http://localhost:5114/api/login', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify({ email, password }),
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === "success") {
-          setAlertMessage(() => "Prisijungimas sėkmingas.");
-          setAlertColor(() => "alert-success");
+        if (data.status === 'success') {
+          setAlertMessage(() => 'Prisijungimas sėkmingas.');
+          setAlertColor(() => 'alert-success');
           login(data);
-          navigate("/feed");
-        } else if (data.status === "error") {
+          navigate('/feed');
+        } else if (data.status === 'error') {
           setAlertMessage(() => data.msg);
-          setAlertColor(() => "alert-danger");
+          setAlertColor(() => 'alert-danger');
         } else {
-          setAlertMessage(() => "Nežinoma klaida.");
-          setAlertColor(() => "alert-warning");
+          setAlertMessage(() => 'Nežinoma klaida.');
+          setAlertColor(() => 'alert-warning');
         }
       })
       .catch(() => {
-        setAlertMessage(() => "Prisijungimas nepavyko. Pabandykite vėliau.");
-        setAlertColor(() => "alert-danger");
+        setAlertMessage(() => 'Prisijungimas nepavyko. Pabandykite vėliau.');
+        setAlertColor(() => 'alert-danger');
       });
   }
   return (

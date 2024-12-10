@@ -1,9 +1,10 @@
-import { useContext } from "react";
-import { Footer } from "../components/Footer";
-import { Header } from "../components/Header";
-import { Outlet } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
-import { LoginForm } from "../components/LoginForm";
+import { useContext } from 'react';
+import { Footer } from '../components/Footer';
+import { Header } from '../components/Header';
+import { Outlet } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
+import { LoginForm } from '../components/LoginForm';
+import styles from './UserLayout.module.css';
 
 export function UserLayout() {
   const { isLoggedIn } = useContext(UserContext);
@@ -13,8 +14,8 @@ export function UserLayout() {
       <Header />
       {isLoggedIn && <Outlet />}
       {!isLoggedIn && (
-        <main>
-          <div className="container px-4">
+        <main className={styles.notAccessableContentContainer}>
+          <div className={`container ${styles.textContainer}`}>
             <div className="row">
               <h1 className="text-center">
                 Turinys skirtas tik prisijungusiems vartotojams

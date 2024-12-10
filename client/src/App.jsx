@@ -1,34 +1,37 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { UserContextWrapper } from "./context/UserContext";
-import { PostsContextWrapper } from "./context/PostsContext";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { UserContextWrapper } from './context/UserContext';
+import { PostsContextWrapper } from './context/PostsContext';
 
 // PUBLIC PAGES
-import { PublicLayout } from "./layout/PublicLayout";
-import { Home } from "./pages/public/Home";
-import { NotFound } from "./pages/public/NotFound";
-import { TermsOfService } from "./pages/public/TermsOfService";
-import { Register } from "./pages/public/Register";
-import { Login } from "./pages/public/Login";
+import { PublicLayout } from './layout/PublicLayout';
+import { Home } from './pages/public/Home';
+import { NotFound } from './pages/public/NotFound';
+import { TermsOfService } from './pages/public/TermsOfService';
+import { FrequentlyAskedQuestions } from './pages/public/FrequentlyAskedQuestions';
+import { AboutUs } from './pages/public/AboutUs';
+
+import { Register } from './pages/public/Register';
+import { Login } from './pages/public/Login';
 
 // USER PAGES
-import { UserLayout } from "./layout/UserLayout";
-import { Feed } from "./pages/user/Feed";
-import { UserProfile } from "./pages/user/user-profile/UserProfile";
+import { UserLayout } from './layout/UserLayout';
+import { Feed } from './pages/user/Feed';
+import { UserProfile } from './pages/user/user-profile/UserProfile';
 
 // ADMIN PAGES
-import { AdminLayout } from "./layout/AdminLayout";
-import { AdminDashboard } from "./pages/admin/AdminDashboard";
+import { AdminLayout } from './layout/AdminLayout';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
 // -----------
-import { AdminAllAccounts } from "./pages/admin/AdminAllAccounts";
-import { AdminAdminAccounts } from "./pages/admin/AdminAdminAccounts";
-import { AdminUserAccounts } from "./pages/admin/AdminUserAccounts";
-import { AdminBlockedAccounts } from "./pages/admin/AdminBlockedAccounts";
+import { AdminAllAccounts } from './pages/admin/AdminAllAccounts';
+import { AdminAdminAccounts } from './pages/admin/AdminAdminAccounts';
+import { AdminUserAccounts } from './pages/admin/AdminUserAccounts';
+import { AdminBlockedAccounts } from './pages/admin/AdminBlockedAccounts';
 // -----------
-import { AdminAllPosts } from "./pages/admin/AdminAllPosts";
-import { AdminActivePosts } from "./pages/admin/AdminActivePosts";
-import { AdminBlockedPosts } from "./pages/admin/AdminBlockedPosts";
-import { AdminSettings } from "./pages/admin/AdminSettings";
-import { AdminDeletedAccounts } from "./pages/admin/AdminDeletedAccounts";
+import { AdminAllPosts } from './pages/admin/AdminAllPosts';
+import { AdminActivePosts } from './pages/admin/AdminActivePosts';
+import { AdminBlockedPosts } from './pages/admin/AdminBlockedPosts';
+import { AdminSettings } from './pages/admin/AdminSettings';
+import { AdminDeletedAccounts } from './pages/admin/AdminDeletedAccounts';
 
 export function App() {
   return (
@@ -39,6 +42,8 @@ export function App() {
             <Route Component={PublicLayout}>
               <Route index path="/" element={<Home />}></Route>
               <Route path="/tos" element={<TermsOfService />}></Route>
+              <Route path="/faq" element={<FrequentlyAskedQuestions />}></Route>
+              <Route path="/about-us" element={<AboutUs />}></Route>
               <Route path="/login" element={<Login />}></Route>
               <Route path="/register" element={<Register />}></Route>
             </Route>

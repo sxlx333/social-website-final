@@ -7,7 +7,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
+.faqHeading {
   font-size: 2.5rem;
   color: #333;
   font-weight: 600;
@@ -15,30 +15,30 @@ h1 {
   text-align: center;
 }
 
-p {
+.faqParagraph {
   font-size: 1rem;
   color: #555;
   line-height: 1.6;
   margin-bottom: 1rem;
 }
 
-ol {
+.faqList {
   padding-left: 20px;
   margin-bottom: 2rem;
 }
 
-ol li {
+.faqListItem {
   font-size: 1rem;
   color: #555;
   margin-bottom: 0.5rem;
 }
 
-hr {
+.faqDivider {
   margin: 2rem 0;
   border: 1px solid #e0e0e0;
 }
 
-footer p {
+.faqFooter {
   font-size: 1rem;
   color: #555;
   text-align: center;

@@ -7,7 +7,7 @@
 }
 
 .content {
-  min-height: calc(100vh - 76px - 100px);
+  min-height: calc(100vh - 76px - 77px);
   display: flex;
   flex-direction: column;
 }

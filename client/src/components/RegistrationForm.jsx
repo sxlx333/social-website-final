@@ -63,65 +63,73 @@ export function RegistrationForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formInRegister}>
+    <form onSubmit={handleSubmit} className={styles.registrationForm}>
       {alertMessage && (
-        <div className={`alert ${alertColor}`} role="alert">
+        <div className={`${styles.alert} alert ${alertColor}`} role="alert">
           {alertMessage}
         </div>
       )}
-      <div className="form-floating mb-3">
+      <div className={styles.inputGroup}>
         <input
           onChange={handleUsernameChange}
           value={username}
           type="text"
-          className="form-control"
+          className={styles.inputField}
           id="username"
           placeholder="Chuck Norris"
           required
         />
-        <label htmlFor="username">Slapyvardis</label>
+        <label htmlFor="username" className={styles.inputLabel}>
+          Slapyvardis
+        </label>
       </div>
-      <div className="form-floating mb-3">
+      <div className={styles.inputGroup}>
         <input
           onChange={handleEmailChange}
           value={email}
           type="email"
-          className="form-control"
+          className={styles.inputField}
           id="email"
           placeholder="name@example.com"
           required
         />
-        <label htmlFor="email">El. paštas</label>
+        <label htmlFor="email" className={styles.inputLabel}>
+          El. paštas
+        </label>
       </div>
-      <div className="form-floating mb-3">
+      <div className={styles.inputGroup}>
         <input
           onChange={handlePasswordChange}
           value={password}
           type="password"
-          className="form-control"
+          className={styles.inputField}
           id="password"
           placeholder="Password"
           required
         />
-        <label htmlFor="password">Slaptažodis</label>
+        <label htmlFor="password" className={styles.inputLabel}>
+          Slaptažodis
+        </label>
       </div>
-      <div className="checkbox mb-3">
-        <label>
-          <input
-            onChange={handleTosChange}
-            type="checkbox"
-            value="tos"
-            checked={checked ? 'checked' : ''}
-            required="required"
-          />{' '}
-          Sutinku su
-        </label>{' '}
-        <Link to="/tos" target="_blank">
-          paslaugos teikimo sąlygomis
-        </Link>
-        .
+      <div className={styles.checkboxGroup}>
+        <input
+          onChange={handleTosChange}
+          type="checkbox"
+          value="tos"
+          checked={checked ? 'checked' : ''}
+          required="required"
+          id="tosCheckbox"
+          className={styles.checkbox}
+        />
+        <label htmlFor="tosCheckbox" className={styles.checkboxLabel}>
+          Sutinku su{' '}
+          <Link to="/tos" target="_blank" className={styles.tosLink}>
+            paslaugos teikimo sąlygomis
+          </Link>
+          .
+        </label>
       </div>
-      <button className="w-100 btn btn-lg btn-primary" type="submit">
+      <button className={styles.submitButton} type="submit">
         Registruotis
         <img
           src={arrowRightIcon}

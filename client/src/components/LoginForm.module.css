@@ -3,37 +3,36 @@
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
 }
 
 .alert {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-size: 0.875rem;
   font-weight: 500;
   border-radius: 5px;
+  padding: 0.75rem;
+  background-color: #f8d7da;
 }
 
 .inputGroup {
   position: relative;
 }
 
-.input {
+.inputField {
   font-size: 1rem;
   border: 1px solid #ced4da;
   border-radius: 5px;
-  padding: 0.5rem;
+  padding: 0.75rem;
   background-color: #ffffff;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
 }
 
-.input:focus {
+.inputField:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.label {
-  color: #6c757d;
-  font-size: 0.875rem;
 }
 
 .submitButton {
@@ -46,6 +45,10 @@
   font-weight: 600;
   text-transform: uppercase;
   transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .submitButton:hover {

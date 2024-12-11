@@ -54,40 +54,41 @@ export function LoginForm() {
       });
   }
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="p-4 p-md-5 border rounded-3 bg-body-tertiary"
-    >
+    <form onSubmit={handleSubmit} className={styles.loginForm}>
       {alertMessage && (
-        <div className={`alert ${alertColor}`} role="alert">
+        <div className={`${styles.alert} alert ${alertColor}`} role="alert">
           {alertMessage}
         </div>
       )}
-      <div className="form-floating mb-3">
+      <div className={`${styles.inputGroup} form-floating mb-3`}>
         <input
           onChange={handleEmailChange}
           value={email}
           type="email"
-          className="form-control"
+          className={`${styles.inputField} form-control`}
           id="email"
           placeholder="name@example.com"
           required
         />
-        <label htmlFor="email">El. paštas</label>
+        <label htmlFor="email" className={styles.inputLabel}>
+          El. paštas
+        </label>
       </div>
-      <div className="form-floating mb-3">
+      <div className={`${styles.inputGroup} form-floating mb-3`}>
         <input
           onChange={handlePasswordChange}
           value={password}
           type="password"
-          className="form-control"
+          className={`${styles.inputField} form-control`}
           id="password"
           placeholder="Password"
           required
         />
-        <label htmlFor="password">Slaptažodis</label>
+        <label htmlFor="password" className={styles.inputLabel}>
+          Slaptažodis
+        </label>
       </div>
-      <button className="w-100 btn btn-lg btn-primary" type="submit">
+      <button className={`${styles.submitButton}`} type="submit">
         Prisijungti
       </button>
     </form>

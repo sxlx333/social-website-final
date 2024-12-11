@@ -1,5 +1,5 @@
-import { MESSAGE_MAX_SIZE, MESSAGE_MIN_SIZE } from "../env.js";
-import { ROLE } from "./enum.js";
+import { MESSAGE_MAX_SIZE, MESSAGE_MIN_SIZE } from '../env.js';
+import { ROLE } from './enum.js';
 
 export class IsValid {
   /**
@@ -12,16 +12,16 @@ export class IsValid {
    */
   static requiredFields(clientData, requiredFields) {
     if (
-      typeof clientData !== "object" ||
+      typeof clientData !== 'object' ||
       Array.isArray(clientData) ||
       clientData === null
     ) {
-      return [true, "Reikalingas validus objektas"];
+      return [true, 'Reikalingas validus objektas'];
     }
 
     if (Object.keys(clientData).length !== requiredFields.length) {
-      const names = requiredFields.map((obj) => obj.field).join(", ");
-      return [true, "Reikalingi laukai yra: " + names];
+      const names = requiredFields.map((obj) => obj.field).join(', ');
+      return [true, 'Reikalingi laukai yra: ' + names];
     }
 
     for (const { field, validation } of requiredFields) {
@@ -32,7 +32,7 @@ export class IsValid {
       }
     }
 
-    return [false, "Ok"];
+    return [false, 'Ok'];
   }
 
   /**
@@ -44,27 +44,27 @@ export class IsValid {
     const minSize = 3;
     const maxSize = 30;
 
-    if (typeof text !== "string") {
-      return [true, "Slapyvardis turi buti teksto tipo."];
+    if (typeof text !== 'string') {
+      return [true, 'Slapyvardis turi būti teksto tipo.'];
     }
 
     if (text.length < minSize) {
       return [
         true,
-        `Slapyvardis turi buti ne trumpesnis nei ${minSize} simboliu.`,
+        `Slapyvardis turi būti ne trumpesnis nei ${minSize} simbolių.`,
       ];
     }
 
     if (text.length > maxSize) {
       return [
         true,
-        `Slapyvardis turi buti ne ilgesnis nei ${maxSize} simboliu.`,
+        `Slapyvardis turi būti ne ilgesnis nei ${maxSize} simbolių.`,
       ];
     }
 
     // TODO: aprasyti daugiau taisykliu
 
-    return [false, "Ok"];
+    return [false, 'Ok'];
   }
 
   /**
@@ -79,40 +79,40 @@ export class IsValid {
     const domainPartMaxSize = 255;
     const domainSubPartMaxSize = 63;
     const abc =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-.";
-    const allowedLocalPartSymbols = abc + "_";
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-.';
+    const allowedLocalPartSymbols = abc + '_';
     const allowedDomainPartSymbols = abc;
 
-    if (typeof text !== "string") {
-      return [true, "El. pastas turi buti teksto tipo."];
+    if (typeof text !== 'string') {
+      return [true, 'El. paštas turi būti teksto tipo.'];
     }
 
     if (text.length < minSize) {
       return [
         true,
-        `El. pastas turi buti ne trumpesnis nei ${minSize} simboliu.`,
+        `El. paštas turi būti ne trumpesnis nei ${minSize} simbolių.`,
       ];
     }
 
     if (text.length > maxSize) {
       return [
         true,
-        `El. pastas turi buti ne ilgesnis nei ${maxSize} simboliu.`,
+        `El. paštas turi būti ne ilgesnis nei ${maxSize} simbolių.`,
       ];
     }
 
-    if (text.includes("..")) {
-      return [true, `El. pastas negali tureti dvieju is eiles einanciu tasku.`];
+    if (text.includes('..')) {
+      return [true, `El. paštas negali turėti dviejų iš eilės einančių taskų.`];
     }
 
-    const parts = text.split("@");
+    const parts = text.split('@');
 
     if (parts.length < 2) {
-      return [true, `El. pastas turi tureti viena "@" simboli.`];
+      return [true, `El. paštas turi turėti vieną "@" simbolį.`];
     }
 
     if (parts.length > 2) {
-      return [true, `El. pastas turi tureti tik viena "@" simboli.`];
+      return [true, `El. paštas turi turėti tik vieną "@" simbolį.`];
     }
 
     const [localPart, domainPart] = parts;
@@ -120,21 +120,21 @@ export class IsValid {
     if (localPart.length > localPartMaxSize) {
       return [
         true,
-        `El. pasto dalis prie "@" simboli negali virsyti ${localPartMaxSize} simboliu.`,
+        `El. pašto dalis prie "@" simbolio negali viršyti ${localPartMaxSize} simbolių.`,
       ];
     }
 
     if (domainPart.length > domainPartMaxSize) {
       return [
         true,
-        `El. pasto dalis uz "@" simbolio negali virsyti ${domainPartMaxSize} simboliu.`,
+        `El. pašto dalis už "@" simbolio negali viršyti ${domainPartMaxSize} simbolių.`,
       ];
     }
 
-    if (domainPart.includes("_")) {
+    if (domainPart.includes('_')) {
       return [
         true,
-        `El. pasto dalis uz "@" simbolio negali tureti "_" simbolio.`,
+        `El. pašto dalis už "@" simbolio negali turėti "_" simbolio.`,
       ];
     }
 
@@ -142,7 +142,7 @@ export class IsValid {
       if (!allowedLocalPartSymbols.includes(s)) {
         return [
           true,
-          `El. pasto dalis pries "@" simboli negali tureti "${s}" simbolio.`,
+          `El. pašto dalis prieš "@" simbolį negali turėti "${s}" simbolio.`,
         ];
       }
     }
@@ -151,17 +151,17 @@ export class IsValid {
       if (!allowedDomainPartSymbols.includes(s)) {
         return [
           true,
-          `El. pasto dalis uz "@" simbolio negali tureti "${s}" simbolio.`,
+          `El. pašto dalis už "@" simbolio negali turėti "${s}" simbolio.`,
         ];
       }
     }
 
-    const domainSubParts = domainPart.split(".");
+    const domainSubParts = domainPart.split('.');
 
     if (domainSubParts.length < 2) {
       return [
         true,
-        `El. pasto dalis uz "@" simbolio nepanasi i tikro el. pasto tiekejo adresa.`,
+        `El. pašto dalis už "@" simbolio nepanaši į tikro el. pašto tiekejo adresą.`,
       ];
     }
 
@@ -169,12 +169,12 @@ export class IsValid {
       if (part.length > domainSubPartMaxSize) {
         return [
           true,
-          `El. pasto dalyje uz "@" simbolio tarp tasku esancios dalys negali virsyti ${domainSubPartMaxSize} simboliu kiekio.`,
+          `El. pašto dalyje už "@" simbolio tarp taškų esančios dalys negali viršyti ${domainSubPartMaxSize} simbolių kiekio.`,
         ];
       }
     }
 
-    return [false, "Ok"];
+    return [false, 'Ok'];
   }
 
   /**
@@ -186,60 +186,60 @@ export class IsValid {
     const minSize = 12;
     const maxSize = 100;
 
-    if (typeof text !== "string") {
-      return [true, "Slaptazodis turi buti teksto tipo."];
+    if (typeof text !== 'string') {
+      return [true, 'Slaptažodis turi būti teksto tipo.'];
     }
 
     if (text.length < minSize) {
       return [
         true,
-        `Slaptazodis turi buti ne trumpesnis nei ${minSize} simboliu.`,
+        `Slaptažodis turi būti ne trumpesnis nei ${minSize} simbolių.`,
       ];
     }
 
     if (text.length > maxSize) {
       return [
         true,
-        `Slaptazodis turi buti ne ilgesnis nei ${maxSize} simboliu.`,
+        `Slaptažodis turi būti ne ilgesnis nei ${maxSize} simbolių.`,
       ];
     }
 
-    return [false, "Ok"];
+    return [false, 'Ok'];
   }
 
   static postMessage(text) {
-    if (typeof text !== "string") {
-      return [true, "Zinute turi buti teksto tipo"];
+    if (typeof text !== 'string') {
+      return [true, 'Žinutė turi būti teksto tipo'];
     }
 
     if (text.length < MESSAGE_MIN_SIZE) {
       return [
         true,
-        `Zinute turi buti ne maziau ${MESSAGE_MIN_SIZE} simboliu ilgio`,
+        `Žinutė turi būti ne mažiau ${MESSAGE_MIN_SIZE} simbolių ilgio`,
       ];
     }
 
     if (text.length > MESSAGE_MAX_SIZE) {
       return [
         true,
-        `Zinute turi buti ne daugiau ${MESSAGE_MAX_SIZE} simboliu ilgio`,
+        `Žinutė turi būti ne daugiau ${MESSAGE_MAX_SIZE} simbolių ilgio`,
       ];
     }
 
-    return [false, "Ok"];
+    return [false, 'Ok'];
   }
 
   static id(number) {
-    if (typeof number !== "number" || !Number.isInteger(number) || number < 1) {
-      return [true, "ID turi buti teigiamas sveikasis skaiciaus"];
+    if (typeof number !== 'number' || !Number.isInteger(number) || number < 1) {
+      return [true, 'ID turi būti teigiamas sveikasis skaičius'];
     }
 
-    return [false, "Ok"];
+    return [false, 'Ok'];
   }
 
   static role(role) {
-    if (typeof role !== "string") {
-      return [true, "Role turi buti teksto tipo"];
+    if (typeof role !== 'string') {
+      return [true, 'Role turi būti teksto tipo'];
     }
 
     const allowedOptions = Object.values(ROLE).filter(
@@ -248,10 +248,10 @@ export class IsValid {
     if (!allowedOptions.includes(role)) {
       return [
         true,
-        "Galimos pasirinkti roles yra: " + allowedOptions.join(", "),
+        'Galimos pasirinkti rolės yra: ' + allowedOptions.join(', '),
       ];
     }
 
-    return [false, "Ok"];
+    return [false, 'Ok'];
   }
 }

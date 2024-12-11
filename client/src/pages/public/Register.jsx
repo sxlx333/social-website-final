@@ -3,13 +3,13 @@ import styles from './Register.module.css';
 
 export function Register() {
   return (
-    <main>
-      <div className={`container px-4 ${styles.createAccContainer}`}>
-        <div className="row">
-          <h1 className="text-center">Susikurti paskyra</h1>
+    <main className={styles.registerMain}>
+      <div className={styles.registerContainer}>
+        <div className={styles.headingRow}>
+          <h1 className={styles.heading}>Susikurti paskyra</h1>
         </div>
-        <div className="row align-items-center g-lg-5 py-5">
-          <div className="col-md-10 mx-auto col-lg-6 col-xl-5">
+        <div className={styles.formRow}>
+          <div className={styles.formContainer}>
             <RegistrationForm />
           </div>
         </div>

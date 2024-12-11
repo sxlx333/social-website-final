@@ -29,7 +29,9 @@ export function UserLayout() {
           </div>
         </main>
       )}
-      <Footer />
+      <footer className={styles.footer}>
+        <Footer />
+      </footer>
     </>
   );
 }

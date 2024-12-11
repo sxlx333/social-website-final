@@ -1,0 +1,54 @@
+/* General container styles */
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 2rem;
+  background-color: #fefefe;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Scoped heading styles */
+.aboutHeading {
+  font-size: 2.5rem;
+  color: #222;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Scoped paragraph styles */
+.aboutParagraph {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* Scoped list container styles */
+.aboutList {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Scoped list item styles */
+.aboutListItem {
+  padding: 1rem;
+  font-size: 1rem;
+  color: #555;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* Hover effect for list items */
+.aboutListItem:hover {
+  background-color: #f1f1f1;
+  transform: translateY(-2px);
+}

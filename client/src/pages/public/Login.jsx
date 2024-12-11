@@ -3,13 +3,15 @@ import styles from './Login.module.css';
 
 export function Login() {
   return (
-    <main>
-      <div className={`container px-4 ${styles.loginTextContainer}`}>
-        <div className="row">
-          <h1 className="text-center">Prisijungti</h1>
+    <main className={styles.loginMain}>
+      <div className={styles.loginContainer}>
+        <div className={styles.headingRow}>
+          <h1 className={styles.heading}>
+            Prisijunkite - būkite pirmas, kuris parašys įrašą!
+          </h1>
         </div>
-        <div className="row align-items-center g-lg-5 py-5">
-          <div className="col-md-10 mx-auto col-lg-6 col-xl-5">
+        <div className={styles.formRow}>
+          <div className={styles.formContainer}>
             <LoginForm />
           </div>
         </div>

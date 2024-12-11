@@ -1,6 +1,45 @@
 .textContainer {
   margin-top: 100px;
 }
-.notAccessableContentContainer {
-  min-height: calc(100vh - 76px - 101px);
+.notAccessibleContentContainer {
+  min-height: calc(100vh - 66px - 11px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f94d;
+}
+
+.container {
+  max-width: 800px;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.row {
+  margin-bottom: 2rem;
+}
+
+.heading {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.loginRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formContainer {
+  max-width: 500px;
+  width: 100%;
+}
+
+.footer {
+  margin-top: auto;
 }

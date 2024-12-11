@@ -7,25 +7,31 @@ export function UserProfile() {
   const { role, email, registeredAt, profileImage, updateProfileImage } =
     useContext(UserContext);
   const [image, setImage] = useState(profileImage);
+  const [selectedFileName, setSelectedFileName] = useState(null);
   const formattedRegisteredAt = formatProfileDate(registeredAt);
 
   function handleImageUpdate(e) {
-    const formData = new FormData();
-    formData.append('user_profile_image', e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFileName(file.name);
 
-    fetch('http://localhost:5114/api/upload/profile', {
-      method: 'POST',
-      credentials: 'include',
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 'success') {
-          setImage(data.path);
-          updateProfileImage(data.path);
-        }
+      const formData = new FormData();
+      formData.append('user_profile_image', file);
+
+      fetch('http://localhost:5114/api/upload/profile', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
       })
-      .catch(console.error);
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 'success') {
+            setImage(data.path);
+            updateProfileImage(data.path);
+          }
+        })
+        .catch(console.error);
+    }
   }
 
   return (
@@ -36,24 +42,41 @@ export function UserProfile() {
         </div>
         <div className="row g-lg-5">
           <div className="col-12 col-md-6 col-lg-4 mb-3">
-            <img className={style.profileImage} src={image} alt="User" />
+            <img
+              className={`${style.profileImage} fadeIn`}
+              src={image}
+              alt="User"
+            />
             <form>
-              <input onChange={handleImageUpdate} type="file" />
+              <input
+                id="profileImageInput"
+                onChange={handleImageUpdate}
+                type="file"
+                style={{ display: 'none' }}
+              />
+              <label htmlFor="profileImageInput" className={style.customButton}>
+                Change Profile Picture
+              </label>
             </form>
+            {selectedFileName && (
+              <p className={style.fileName}>
+                Selected file: {selectedFileName}
+              </p>
+            )}
           </div>
         </div>
         <div className="row g-lg-5">
           <div className="col-12 col-md-6 col-lg-4 mb-3">
-            <p className="fw-bold">Rolė</p>
-            <p>{role}</p>
+            <p className={style.sectionHeader}>Rolė</p>
+            <p className={style.sectionText}>{role}</p>
           </div>
           <div className="col-12 col-md-6 col-lg-4 mb-3">
-            <p className="fw-bold">El. paštas</p>
-            <p>{email}</p>
+            <p className={style.sectionHeader}>El. paštas</p>
+            <p className={style.sectionText}>{email}</p>
           </div>
           <div className="col-12 col-md-6 col-lg-4 mb-3">
-            <p className="fw-bold">Registracijos data</p>
-            <p>{formattedRegisteredAt}</p>
+            <p className={style.sectionHeader}>Registracijos data</p>
+            <p className={style.sectionText}>{formattedRegisteredAt}</p>
           </div>
         </div>
       </div>

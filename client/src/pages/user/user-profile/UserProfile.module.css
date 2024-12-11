@@ -1,7 +1,91 @@
 .profileImage {
-  width: 100%;
+  margin: 0 auto;
+  max-width: 200px;
+  height: auto;
+  border: 3px solid #ddd;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profileImage:hover {
+  transform: scale(2.5);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 .userProfileContainer {
   margin-top: 100px;
   min-height: calc(100vh - 181px - 40px);
+  background-color: #f9f9f9;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.customButton {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.customButton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.fileName {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  font-style: italic;
+}
+
+.sectionHeader {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.sectionText {
+  font-size: 1rem;
+  color: #555;
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .userProfileContainer {
+    padding: 15px;
+  }
+
+  .profileImage {
+    max-width: 150px;
+  }
+
+  .customButton {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
 }

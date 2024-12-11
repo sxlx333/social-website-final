@@ -7,12 +7,12 @@ export function Home() {
     <main>
       <div className={`container px-4 ${styles.twoSectionContainer}`}>
         <div
-          className={`row align-items-center g-lg-0 ${styles.twoSectionChildContainer}`}
+          className={`row align-items-center g-lg-0 ${styles.twoSectionChildContainer} ${styles.fadeIn}`}
         >
           <div
             className={`col-lg-6 col-xl-6 text-center text-lg-start ${styles.homeRegistrationContainer}`}
           >
-            <div className={styles.opacityBackground}>
+            <div className={`${styles.opacityBackground}`}>
               <div className="homeRegisterTitle">
                 <h1
                   className={`display-5 fw-bold lh-1 mb-3 ${styles.homeRegisterTitle}`}

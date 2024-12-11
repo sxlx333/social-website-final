@@ -1,7 +1,9 @@
+import styles from './FrequentlyAskedQuestions.module.css';
+
 export function FrequentlyAskedQuestions() {
   return (
     <main>
-      <section className="container">
+      <section className={styles.container}>
         <div className="row">
           <div className="col-12">
             <h1>Dažnai užduodami klausimai</h1>

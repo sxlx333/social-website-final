@@ -23,55 +23,73 @@ export function Header({ fullWidth }) {
   }
 
   return (
-    <div className={fullWidth === true ? 'container-fluid' : 'container'}>
+    <div className={fullWidth ? 'container-fluid' : 'container'}>
       <header
         className={`d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 ${styles.headerContainer}`}
       >
-        <div className="col-md-2 mb-2 mb-md-0">
+        <div className="col-md-2 mb-2 mb-md-0 d-flex align-items-center">
           <Link
             to="/"
             className="d-inline-flex link-body-emphasis text-decoration-none"
           >
             <img src={logo} alt="Logo" className={styles.logo} />
           </Link>
-          {isLoggedIn && role === 'user' && 'Vartotojas'}
-          {isLoggedIn && role === 'admin' && 'Administratorius'}
+          {isLoggedIn && role === 'user' && (
+            <span className={styles.roleText}>Vartotojas</span>
+          )}
+          {isLoggedIn && role === 'admin' && (
+            <span className={styles.roleText}>Administratorius</span>
+          )}
         </div>
 
-        <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <ul className={`${styles.customNav}`}>
           <MenuLink href="/" title="Pagrindinis" />
           <MenuLink href="/faq" title="DUK" />
           <MenuLink href="/about-us" title="Apie mus" />
           <MenuLink href="/feed" title="Įrašų srautas" />
         </ul>
 
-        {isLoggedIn && (
+        {isLoggedIn ? (
           <div className="col-md-4 text-end">
             {role === 'admin' && (
-              <Link to="/admin" className="btn btn-outline-primary me-2">
-                Admin
+              <Link
+                to="/admin"
+                className={`${styles.adminButton} ${styles.linkButton} me-2 text-decoration-none`}
+              >
+                <span className={styles.buttonText}>Admin</span>{' '}
               </Link>
             )}
-            <Link to="/profile" className="btn btn-outline-primary me-2">
-              Profilis
+            <Link
+              to="/profile"
+              className={`${styles.profileButton} ${styles.linkButton} me-2 text-decoration-none`}
+            >
+              <span className={styles.buttonText}>Profilis</span>{' '}
             </Link>
             <button
               onClick={handleLogoutClick}
               type="button"
-              className="btn btn-primary"
+              className={`${styles.logoutButton} ${styles.linkButton}`}
             >
-              Atsijungti
+              <span className={styles.buttonText}>Atsijungti</span>{' '}
             </button>
           </div>
-        )}
-
-        {!isLoggedIn && (
+        ) : (
           <div className="col-md-4 text-end">
-            <Link to="/login" className="btn btn-outline-primary me-2">
-              Prisijungti
+            <Link
+              to="/login"
+              className={`${styles.linkButton} ${styles.buttonOutlinePrimary} me-2 text-decoration-none`}
+            >
+              <button type="button" className={`btn-outline-primary btn`}>
+                <span className={styles.buttonText}>Prisijungti</span>{' '}
+              </button>
             </Link>
-            <Link to="/register" className="btn btn-primary">
-              Registruotis
+            <Link
+              to="/register"
+              className={`${styles.linkButton} ${styles.buttonPrimary} text-decoration-none`}
+            >
+              <button type="button" className={`btn btn-primary`}>
+                <span className={styles.buttonText}>Registruotis</span>{' '}
+              </button>
             </Link>
           </div>
         )}

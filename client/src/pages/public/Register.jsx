@@ -6,7 +6,7 @@ export function Register() {
     <main className={styles.registerMain}>
       <div className={styles.registerContainer}>
         <div className={styles.headingRow}>
-          <h1 className={styles.heading}>Susikurti paskyra</h1>
+          <h1 className={styles.heading}>Susikurti paskyrą</h1>
         </div>
         <div className={styles.formRow}>
           <div className={styles.formContainer}>

@@ -38,10 +38,10 @@ export function UserProfile() {
     <main>
       <div className={`container px-4 ${style.userProfileContainer}`}>
         <div className="row align-items-center mb-5">
-          <h1>Vartotojo profilis</h1>
+          <h1 className="text-center">Vartotojo profilis</h1>
         </div>
         <div className="row g-lg-5">
-          <div className="col-12 col-md-6 col-lg-4 mb-3">
+          <div className="col-12 col-md-12 col-lg-12 mb-3">
             <img
               className={`${style.profileImage} fadeIn`}
               src={image}
@@ -55,7 +55,7 @@ export function UserProfile() {
                 style={{ display: 'none' }}
               />
               <label htmlFor="profileImageInput" className={style.customButton}>
-                Change Profile Picture
+                Pakeisti profilio nuotrauką
               </label>
             </form>
             {selectedFileName && (

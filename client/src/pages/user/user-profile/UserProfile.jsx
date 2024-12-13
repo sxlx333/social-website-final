@@ -35,51 +35,56 @@ export function UserProfile() {
   }
 
   return (
-    <main>
-      <div className={`container px-4 ${style.userProfileContainer}`}>
-        <div className="row align-items-center mb-5">
-          <h1 className="text-center">Vartotojo profilis</h1>
-        </div>
-        <div className="row g-lg-5">
-          <div className={`${style.profileHeader} mb-3`}>
-            <img
-              className={`${style.profileImage} ${style.fadeIn}`}
-              src={image}
-              alt="User"
-            />
-            <form>
-              <input
-                id="profileImageInput"
-                onChange={handleImageUpdate}
-                type="file"
-                style={{ display: 'none' }}
+    <div className={style.pageWrapper}>
+      <main>
+        <div className={`container px-4 ${style.userProfileContainer}`}>
+          <div className="row align-items-center mb-5">
+            <h1 className="text-center">Vartotojo profilis</h1>
+          </div>
+          <div className="row g-lg-5">
+            <div className={`${style.profileHeader} mb-3`}>
+              <img
+                className={`${style.profileImage} ${style.fadeIn}`}
+                src={image}
+                alt="User"
               />
-              <label htmlFor="profileImageInput" className={style.customButton}>
-                Pakeisti profilio nuotrauką
-              </label>
-            </form>
-            {selectedFileName && (
-              <p className={style.fileName}>
-                Selected file: {selectedFileName}
-              </p>
-            )}
+              <form>
+                <input
+                  id="profileImageInput"
+                  onChange={handleImageUpdate}
+                  type="file"
+                  style={{ display: 'none' }}
+                />
+                <label
+                  htmlFor="profileImageInput"
+                  className={style.customButton}
+                >
+                  Pakeisti profilio nuotrauką
+                </label>
+              </form>
+              {selectedFileName && (
+                <p className={style.fileName}>
+                  Selected file: {selectedFileName}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className={style.detailsGrid}>
+            <div className={style.detailCard}>
+              <p className={style.sectionHeader}>Rolė</p>
+              <p className={style.sectionText}>{role}</p>
+            </div>
+            <div className={style.detailCard}>
+              <p className={style.sectionHeader}>El. paštas</p>
+              <p className={style.sectionText}>{email}</p>
+            </div>
+            <div className={style.detailCard}>
+              <p className={style.sectionHeader}>Registracijos data</p>
+              <p className={style.sectionText}>{formattedRegisteredAt}</p>
+            </div>
           </div>
         </div>
-        <div className={style.detailsGrid}>
-          <div className={style.detailCard}>
-            <p className={style.sectionHeader}>Rolė</p>
-            <p className={style.sectionText}>{role}</p>
-          </div>
-          <div className={style.detailCard}>
-            <p className={style.sectionHeader}>El. paštas</p>
-            <p className={style.sectionText}>{email}</p>
-          </div>
-          <div className={style.detailCard}>
-            <p className={style.sectionHeader}>Registracijos data</p>
-            <p className={style.sectionText}>{formattedRegisteredAt}</p>
-          </div>
-        </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

@@ -1,11 +1,28 @@
-.mainContainer {
-  margin-top: 115px;
-}
-/* .mainContainer {
-  background-image: url('/assets/stork-background.jpg');
+.pageWrapperFeed {
+  background-image: url('../../assets/background3.jpg');
+  background-attachment: fixed;
   background-size: cover;
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
   min-height: 100vh;
-  padding: 20px; 
-} */
+  margin-top: 75px;
+  position: relative;
+}
+
+.pageWrapperFeed::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.mainContainer {
+  position: relative;
+  z-index: 2;
+  padding: 20px 0;
+  overflow: hidden;
+}

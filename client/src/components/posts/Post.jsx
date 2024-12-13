@@ -72,11 +72,14 @@ export function Post({ post }) {
   return (
     <article className={style.post} data-id={post.post_id}>
       <header className={style.header}>
-        <img
-          className={style.authorImage}
-          src={post.profile_image || userDefaultProfile}
-          alt="User photo"
-        />
+        <div className={style.authorImageContainer}>
+          <img
+            className={style.authorImage}
+            src={post.profile_image || userDefaultProfile}
+            alt="User photo"
+            onClick={() => setShowImageModal(true)}
+          />
+        </div>
         <div className={style.texts}>
           <div className={style.title}>{post.username}</div>
           <div className={style.time}>{formatTime(post.created_at)}</div>

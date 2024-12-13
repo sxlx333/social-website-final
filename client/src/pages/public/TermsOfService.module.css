@@ -1,0 +1,52 @@
+/* Main container for the Terms of Service */
+.tosContainer {
+  margin: 120px auto;
+  padding: 30px;
+  background-color: #f9f9f9; /* Subtle background for the section */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+}
+
+/* Header styling */
+.tosHeader {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Card-like styling for paragraphs */
+.tosParagraph {
+  background-color: #ffffff; /* White cards for contrast */
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.6;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect for cards */
+.tosParagraph:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tosContainer {
+    padding: 20px;
+  }
+
+  .tosHeader {
+    font-size: 1.8rem;
+  }
+
+  .tosParagraph {
+    font-size: 0.9rem;
+  }
+}

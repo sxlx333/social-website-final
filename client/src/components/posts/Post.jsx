@@ -1,17 +1,17 @@
-import { useContext, useState } from "react";
-import style from "./Post.module.css";
-import { UserContext } from "../../context/UserContext";
-import { formatTime } from "../../lib/formatTime";
-import thumbUpIcon from "../../assets/thumb-up.svg";
-import thumbDownIcon from "../../assets/thumb-down.svg";
-import heartIcon from "../../assets/heart.svg";
-import commentIcon from "../../assets/comment.svg";
-import smileIcon from "../../assets/smile.svg";
-import cameraIcon from "../../assets/camera.svg";
-import gifIcon from "../../assets/gif.svg";
-import userDefaultProfile from "../../assets/userDefaultProfile.svg";
-import { REACTION_TYPE } from "../../../../server/lib/enum";
-import { PostsContext } from "../../context/PostsContext";
+import { useContext, useEffect, useState, useRef } from 'react';
+import style from './Post.module.css';
+import { UserContext } from '../../context/UserContext';
+import { formatTime } from '../../lib/formatTime';
+import thumbUpIcon from '../../assets/thumb-up.svg';
+import thumbDownIcon from '../../assets/thumb-down.svg';
+import heartIcon from '../../assets/heart.svg';
+import commentIcon from '../../assets/comment.svg';
+import smileIcon from '../../assets/smile.svg';
+import cameraIcon from '../../assets/camera.svg';
+import gifIcon from '../../assets/gif.svg';
+import userDefaultProfile from '../../assets/userDefaultProfile.svg';
+import { REACTION_TYPE } from '../../../../server/lib/enum';
+import { PostsContext } from '../../context/PostsContext';
 
 export function Post({ post }) {
   const softCutLimit = 200;
@@ -23,22 +23,38 @@ export function Post({ post }) {
   const [postTextFullSize, setPostTextFullSize] = useState(
     post.text.length < hardCutLimit
   );
-  const [isTextAreaFocused, setIsTextAreaFocused] = useState(false); // State to track textarea focus
+  const [isTextAreaFocused, setIsTextAreaFocused] = useState(false);
 
   const text = postTextFullSize
     ? post.text
-    : post.text.slice(0, softCutLimit).trim() + "...";
+    : post.text.slice(0, softCutLimit).trim() + '...';
 
   const shouldDisableShowLess =
     postTextFullSize && post.text.length <= softCutLimit;
 
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   function handleLikeClick(reactionTypeId) {
-    fetch("http://localhost:5114/api/post-reaction", {
-      method: "POST",
+    fetch('http://localhost:5114/api/post-reaction', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify({
         postId: post.post_id,
         reactionTypeId: reactionTypeId,
@@ -46,7 +62,7 @@ export function Post({ post }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === "success") {
+        if (data.status === 'success') {
           updateLikeCount(post.post_id, reactionTypeId);
         }
       })
@@ -62,13 +78,25 @@ export function Post({ post }) {
           alt="User photo"
         />
         <div className={style.texts}>
-          <div className="title">{post.username}</div>
-          <div className="time">{formatTime(post.created_at)}</div>
+          <div className={style.title}>{post.username}</div>
+          <div className={style.time}>{formatTime(post.created_at)}</div>
         </div>
-        <i className={style.moreActions + " fa fa-ellipsis-h"}></i>
+        <div className={style.moreActionsContainer} ref={dropdownRef}>
+          <i
+            className={`${style.moreActions} fas fa-ellipsis-h`}
+            onClick={() => setShowDropdown(!showDropdown)}
+          />
+          {showDropdown && (
+            <ul className={style.dropdownMenu}>
+              <li>Edit</li>
+              <li>Delete</li>
+              <li>Report</li>
+            </ul>
+          )}
+        </div>
       </header>
       <div className={style.content}>
-        <p className={post.text.length < 100 ? style.bigText : ""}>
+        <p className={post.text.length < 100 ? style.bigText : ''}>
           {text}
           {post.text.length > softCutLimit && (
             <span
@@ -76,10 +104,10 @@ export function Post({ post }) {
               className={style.more}
             >
               {postTextFullSize && shouldDisableShowLess
-                ? "Rodyti mažiau"
+                ? 'Rodyti mažiau'
                 : postTextFullSize
-                ? "Rodyti mažiau"
-                : "Skaityti daugiau"}
+                ? 'Rodyti mažiau'
+                : 'Skaityti daugiau'}
             </span>
           )}
         </p>
@@ -89,7 +117,7 @@ export function Post({ post }) {
           <div
             onClick={() => handleLikeClick(REACTION_TYPE.LIKE)}
             className={`${style.action} ${
-              post.my_reaction_id === 1 ? style.active : ""
+              post.my_reaction_id === 1 ? style.active : ''
             }`}
           >
             <img src={thumbUpIcon} alt="Patinka" />
@@ -99,7 +127,7 @@ export function Post({ post }) {
           <div
             onClick={() => handleLikeClick(REACTION_TYPE.DISLIKE)}
             className={`${style.action} ${
-              post.my_reaction_id === 2 ? style.active : ""
+              post.my_reaction_id === 2 ? style.active : ''
             }`}
           >
             <img src={thumbDownIcon} alt="Nepatinka" />
@@ -109,7 +137,7 @@ export function Post({ post }) {
           <div
             onClick={() => handleLikeClick(REACTION_TYPE.LOVE)}
             className={`${style.action} ${
-              post.my_reaction_id === 3 ? style.active : ""
+              post.my_reaction_id === 3 ? style.active : ''
             }`}
           >
             <img src={heartIcon} alt="Myliu" />
@@ -130,7 +158,7 @@ export function Post({ post }) {
             onFocus={() => setIsTextAreaFocused(true)}
             onBlur={() => setIsTextAreaFocused(false)}
             style={{
-              height: isTextAreaFocused ? "100px" : "40px",
+              height: isTextAreaFocused ? '100px' : '40px',
             }}
           ></textarea>
           <div className={style.icons}>

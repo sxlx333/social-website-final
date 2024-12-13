@@ -41,9 +41,9 @@ export function UserProfile() {
           <h1 className="text-center">Vartotojo profilis</h1>
         </div>
         <div className="row g-lg-5">
-          <div className="col-12 col-md-12 col-lg-12 mb-3">
+          <div className={`${style.profileHeader} mb-3`}>
             <img
-              className={`${style.profileImage} fadeIn`}
+              className={`${style.profileImage} ${style.fadeIn}`}
               src={image}
               alt="User"
             />
@@ -65,16 +65,16 @@ export function UserProfile() {
             )}
           </div>
         </div>
-        <div className="row g-lg-5">
-          <div className="col-12 col-md-6 col-lg-4 mb-3">
+        <div className={style.detailsGrid}>
+          <div className={style.detailCard}>
             <p className={style.sectionHeader}>Rolė</p>
             <p className={style.sectionText}>{role}</p>
           </div>
-          <div className="col-12 col-md-6 col-lg-4 mb-3">
+          <div className={style.detailCard}>
             <p className={style.sectionHeader}>El. paštas</p>
             <p className={style.sectionText}>{email}</p>
           </div>
-          <div className="col-12 col-md-6 col-lg-4 mb-3">
+          <div className={style.detailCard}>
             <p className={style.sectionHeader}>Registracijos data</p>
             <p className={style.sectionText}>{formattedRegisteredAt}</p>
           </div>

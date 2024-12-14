@@ -85,6 +85,63 @@ export function AboutUs() {
                   Suteikti galimybę vartotojams bendrinti savo profilį, sukurti
                   nuorodą.
                 </li>
+
+                <h3 className={styles.listHeading}>
+                  Administratoriaus skydelis
+                </h3>
+                <ul className={styles.aboutList}>
+                  <li className={styles.aboutListItem}>
+                    Sukurti administratoriaus suvestinės komponentą, kad būtų
+                    matomi svarbiausi duomenys, kaip aktyvūs vartotojai,
+                    blokavimai, žinutės ir kita.
+                  </li>
+                  <li className={styles.aboutListItem}>
+                    Suteikti galimybę administratoriui blokuoti paskyras ir
+                    valdyti blokuotas paskyras tiesiogiai administravimo
+                    skydelyje.
+                  </li>
+                  <li className={styles.aboutListItem}>
+                    Patobulinti žinučių (posts) sekciją, kad administratoriui
+                    būtų aiškiai rodomi visi žinutės duomenys, ir tai veiktų
+                    tinkamai.
+                  </li>
+                  <li className={styles.aboutListItem}>
+                    Užpildyti nustatymų sekciją administravimo skydelyje su
+                    konfigūracijos parinktimis, kaip vartotojų teises, svetainės
+                    nustatymai ir saugumo parinktys.
+                  </li>
+                  <li className={styles.aboutListItem}>
+                    Įdiegti funkcionalumą, kad administratoriaus skydelyje būtų
+                    galima eksportuoti ir bendrinti duomenis, tokius kaip
+                    blokuoti ir ištrinti vartotojai, žinutės ir kita.
+                  </li>
+                  <li className={styles.aboutListItem}>
+                    Pagerinti administravimo skydelio išvaizdą mobiliuosiuose
+                    įrenginiuose, kad būtų patogiau naudotis visomis
+                    funkcijomis.
+                  </li>
+                  <li className={styles.aboutListItem}>
+                    Sukurti administratoriaus veiklos žurnalą (audit log), kad
+                    būtų galima sekti visus pakeitimus ir veiksmus, atliktus
+                    administravimo skydelyje.
+                  </li>
+                  <li className={styles.aboutListItem}>
+                    Patobulinti duomenų rūšiavimo ir filtravimo funkcijas
+                    administravimo skydelyje, kad būtų lengviau tvarkyti
+                    vartotojų sąrašus, žinutes ir kitus duomenis.
+                  </li>
+                  <li className={styles.aboutListItem}>
+                    Optimizuoti administravimo skydelio našumą, kad būtų galima
+                    lengvai valdyti didelius duomenų kiekius, kaip vartotojai,
+                    žinutės ir kita.
+                  </li>
+                  <li className={styles.aboutListItem}>
+                    Įdiegti papildomas saugumo priemones administravimo
+                    skydelyje, įskaitant dviejų faktorių autentifikaciją (MFA)
+                    ir detalią veiklos ataskaitą.
+                  </li>
+                </ul>
+
                 <h3 className={styles.listHeading}>Kiti patobulinimai:</h3>
                 <li className={styles.aboutListItem}>
                   Vartotojo sąsajos tobulinimas, kad patirtis būtų skandli ir

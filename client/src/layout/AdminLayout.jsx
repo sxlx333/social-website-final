@@ -38,7 +38,7 @@ export function AdminLayout() {
                 ></button>
               </div>
               <div className={`${styles.offcanvasBody}`}>
-                <h6 className={styles.sidebarHeading}>General</h6>
+                <h6 className={styles.sidebarHeading}>Bendrai</h6>
                 <ul className={styles.sidebarList}>
                   <li className={styles.navItem}>
                     <Link to="/admin" className={styles.navLink}>

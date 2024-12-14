@@ -30,10 +30,10 @@
   border-radius: 50%;
   border: 2px solid #ccc;
   cursor: pointer;
-  transition: transform 0.3s ease-in-out; /* Smooth zoom effect */
+  transition: transform 0.3s ease-in-out;
 }
 .authorImage:hover {
-  transform: scale(1.5); /* Zoom in on hover */
+  transform: scale(1.5);
 }
 
 /* .post .authorImage {
@@ -202,7 +202,12 @@
   color: #fff;
 }
 .interactions .action.active img {
-  filter: brightness(0) invert(1);
+  height: 20px;
+  transition: filter 0.2s ease;
+}
+.interactions .action.active:hover {
+  background-color: #0056b3;
+  color: #fff;
 }
 .interactions .action:hover {
   cursor: pointer;
@@ -216,6 +221,13 @@
   line-height: 2em;
   font-size: 1rem;
   margin-left: 0.5em;
+}
+.interactions .action:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+.interactions .action.active img {
+  filter: brightness(0) invert(1); /* Icon becomes white */
 }
 .commentForm {
   display: flex;

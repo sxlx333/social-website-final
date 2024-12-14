@@ -77,7 +77,6 @@ export function Post({ post }) {
             className={style.authorImage}
             src={post.profile_image || userDefaultProfile}
             alt="User photo"
-            onClick={() => setShowImageModal(true)}
           />
         </div>
         <div className={style.texts}>
@@ -91,9 +90,9 @@ export function Post({ post }) {
           />
           {showDropdown && (
             <ul className={style.dropdownMenu}>
-              <li>Edit</li>
-              <li>Delete</li>
-              <li>Report</li>
+              <li>Redaguoti</li>
+              <li>Pašalinti</li>
+              <li>Pranešti</li>
             </ul>
           )}
         </div>

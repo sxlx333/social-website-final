@@ -8,9 +8,9 @@ export function AboutUs() {
           <div className="col-12">
             <h1 className={styles.aboutHeading}>Apie mus</h1>
             <p className={styles.aboutParagraph}>
-              "Gandalizdis" yra pilno funkcionalumo (full-stack) žiniatinklio
-              programa, leidžianti naudotojams kurti, valdyti ir sąveikauti su
-              savo įrašais bei profiliais. Ši platforma sukurta naudojant tiek
+              "Gandalizdis" yra funkcionali (full-stack) žiniatinklio programa,
+              leidžianti naudotojams kurti, valdyti ir sąveikauti su savo
+              įrašais bei profiliais. Ši platforma sukurta naudojant tiek
               kliento, tiek serverio technologijas, užtikrinant sklandžią
               naudotojo patirtį.
             </p>

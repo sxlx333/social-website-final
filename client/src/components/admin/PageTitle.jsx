@@ -6,10 +6,10 @@ export function PageTitle({ title }) {
       <div className="btn-toolbar mb-2 mb-md-0">
         <div className="btn-group me-2">
           <button type="button" className="btn btn-sm btn-outline-secondary">
-            Share
+            Dalintis
           </button>
           <button type="button" className="btn btn-sm btn-outline-secondary">
-            Export
+            Išsaugoti
           </button>
         </div>
       </div>

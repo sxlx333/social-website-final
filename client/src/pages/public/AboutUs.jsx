@@ -57,6 +57,21 @@ export function AboutUs() {
                   Leisti vartotojams užvedus ant patinka mygtuko pasirinkti
                   emocijas.
                 </li>
+                <li className={styles.aboutListItem}>
+                  „Trijų taškų“ meniu funkcionalumas: šiuo metu veikia
+                  netinkamai ir atsidaro visiems įrašams. Jis turėtų būti
+                  atnaujintas taip, kad:
+                  <ul className={styles.aboutSubList}>
+                    <li>
+                      Tik įrašo autorius galėtų redaguoti ar ištrinti savo
+                      įrašus.
+                    </li>
+                    <li>
+                      Kiti naudotojai galėtų tik pranešti apie įrašą arba jį
+                      bendrinti.
+                    </li>
+                  </ul>
+                </li>
                 <h3 className={styles.listHeading}>Profilio sekcija</h3>
                 <li className={styles.aboutListItem}>
                   Leisti vartotojams keisti slaptažodžius tiesiai iš savo

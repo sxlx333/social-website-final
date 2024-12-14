@@ -1,9 +1,9 @@
-import { PageTitle } from "../../components/admin/PageTitle";
+import { PageTitle } from '../../components/admin/PageTitle';
 
 export function AdminDashboard() {
   return (
     <>
-      <PageTitle title="Dashboard" />
+      <PageTitle title="Skydelis" />
     </>
   );
 }

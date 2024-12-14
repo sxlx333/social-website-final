@@ -1,14 +1,15 @@
-import { useContext } from "react";
-import { Footer } from "../components/Footer";
-import { Header } from "../components/Header";
-import { Link, Outlet } from "react-router-dom";
-import { UserContext } from "../context/UserContext";
-import { NotFound } from "../pages/public/NotFound";
+import { useContext } from 'react';
+import { Footer } from '../components/Footer';
+import { Header } from '../components/Header';
+import { Link, Outlet } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
+import { NotFound } from '../pages/public/NotFound';
+import styles from './AdminLayout.module.css';
 
 export function AdminLayout() {
   const { isLoggedIn, role } = useContext(UserContext);
 
-  if (!isLoggedIn || role !== "admin") {
+  if (!isLoggedIn || role !== 'admin') {
     return (
       <>
         <Header />
@@ -17,131 +18,101 @@ export function AdminLayout() {
       </>
     );
   }
-
   return (
     <>
       <Header fullWidth={true} />
-      <div className="container-fluid">
-        <div className="row">
-          <div className="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
-            <div
-              className="offcanvas-md offcanvas-end bg-body-tertiary"
-              tabIndex="-1"
-              id="sidebarMenu"
-              aria-labelledby="sidebarMenuLabel"
-            >
-              <div className="offcanvas-header">
-                <h5 className="offcanvas-title" id="sidebarMenuLabel">
-                  Company name
+      <div className={styles.adminLayout}>
+        <div className={styles.row}>
+          {/* Sidebar */}
+          <div className={`${styles.sidebar}`} id="sidebarMenu">
+            <div className={`${styles.offcanvas}`}>
+              <div className={`${styles.offcanvasHeader}`}>
+                <h5 className={styles.sidebarTitle}>
+                  Administratoriaus skydelis
                 </h5>
                 <button
                   type="button"
-                  className="btn-close"
+                  className={styles.closeButton}
                   data-bs-dismiss="offcanvas"
-                  data-bs-target="#sidebarMenu"
                   aria-label="Close"
                 ></button>
               </div>
-              <div className="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
-                <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
-                  <span>General</span>
-                </h6>
-                <ul className="nav flex-column">
-                  <li className="nav-item">
-                    <Link
-                      to="/admin"
-                      className="nav-link d-flex align-items-center gap-2 active"
-                      aria-current="page"
-                    >
+              <div className={`${styles.offcanvasBody}`}>
+                <h6 className={styles.sidebarHeading}>General</h6>
+                <ul className={styles.sidebarList}>
+                  <li className={styles.navItem}>
+                    <Link to="/admin" className={styles.navLink}>
                       Suvestinė
                     </Link>
                   </li>
                 </ul>
 
-                <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
-                  <span>Vartotojai</span>
-                </h6>
-                <ul className="nav flex-column mb-auto">
-                  <li className="nav-item">
-                    <Link
-                      to="/admin/accounts"
-                      className="nav-link d-flex align-items-center gap-2"
-                    >
+                <h6 className={styles.sidebarHeading}>Vartotojai</h6>
+                <ul className={styles.sidebarList}>
+                  <li className={styles.navItem}>
+                    <Link to="/admin/accounts" className={styles.navLink}>
                       Visi vartotojai
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link
-                      to="/admin/accounts/admin"
-                      className="nav-link d-flex align-items-center gap-2"
-                    >
+
+                  <li className={styles.navItem}>
+                    <Link to="/admin/accounts/admin" className={styles.navLink}>
                       Administratoriai
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link
-                      to="/admin/accounts/users"
-                      className="nav-link d-flex align-items-center gap-2"
-                    >
+
+                  <li className={styles.navItem}>
+                    <Link to="/admin/accounts/users" className={styles.navLink}>
                       Paprasti vartotojai
                     </Link>
                   </li>
-                  <li className="nav-item">
+
+                  <li className={styles.navItem}>
                     <Link
                       to="/admin/accounts/blocked"
-                      className="nav-link d-flex align-items-center gap-2"
+                      className={styles.navLink}
                     >
                       Blokuotos paskyros
                     </Link>
                   </li>
-                  <li className="nav-item">
+
+                  <li className={styles.navItem}>
                     <Link
                       to="/admin/accounts/deleted"
-                      className="nav-link d-flex align-items-center gap-2"
+                      className={styles.navLink}
                     >
                       Ištrintos paskyros
                     </Link>
                   </li>
                 </ul>
 
-                <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
-                  <span>Žinutės</span>
-                </h6>
-                <ul className="nav flex-column mb-auto">
-                  <li className="nav-item">
-                    <Link
-                      to="/admin/posts"
-                      className="nav-link d-flex align-items-center gap-2"
-                    >
+                <h6 className={styles.sidebarHeading}>Žinutės</h6>
+                <ul className={styles.sidebarList}>
+                  <li className={styles.navItem}>
+                    <Link to="/admin/posts" className={styles.navLink}>
                       Visos žinutės
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link
-                      to="/admin/posts/active"
-                      className="nav-link d-flex align-items-center gap-2"
-                    >
+
+                  <li className={styles.navItem}>
+                    <Link to="/admin/posts/active" className={styles.navLink}>
                       Viešos žinutės
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link
-                      to="/admin/posts/blocked"
-                      className="nav-link d-flex align-items-center gap-2"
-                    >
+
+                  <li className={styles.navItem}>
+                    <Link to="/admin/posts/blocked" className={styles.navLink}>
                       Blokuotos žinutės
                     </Link>
                   </li>
                 </ul>
 
-                <hr className="my-3" />
+                <hr className={styles.divider} />
 
-                <ul className="nav flex-column mb-auto">
-                  <li className="nav-item">
-                    <Link
-                      to="/admin/settings"
-                      className="nav-link d-flex align-items-center gap-2"
-                    >
+                <h6 className={styles.sidebarHeading}>Parinktys</h6>
+                <ul className={styles.sidebarList}>
+                  <li className={styles.navItem}>
+                    <Link to="/admin/settings" className={styles.navLink}>
                       Nustatymai
                     </Link>
                   </li>
@@ -150,12 +121,14 @@ export function AdminLayout() {
             </div>
           </div>
 
-          <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <main className={styles.mainContent}>
             <Outlet />
           </main>
         </div>
       </div>
-      <Footer />
+      <footer className={styles.footer}>
+        <Footer />
+      </footer>
     </>
   );
 }

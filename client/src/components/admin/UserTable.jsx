@@ -1,10 +1,11 @@
-/* eslint-disable react/prop-types */
-import { UserTableRow } from "./UserTableRow.jsx";
+import { UserTableRow } from './UserTableRow.jsx';
 
-export function UserTable({ data }) {
+import styles from './UserTable.module.css';
+
+export default function UserTable({ data }) {
   return (
-    <div className="table-responsive small">
-      <table className="table table-striped table-md">
+    <div className={styles.tableContainer}>
+      <table className={`${styles.table} ${styles.tableStriped}`}>
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -15,7 +16,9 @@ export function UserTable({ data }) {
             <th scope="col">Rolė</th>
             <th scope="col">Registracijos data</th>
             <th scope="col">Statusas</th>
-            <th scope="col">Veiksmai</th>
+            <th scope="col" className={styles.tableActions}>
+              Veiksmai
+            </th>
           </tr>
         </thead>
         <tbody>

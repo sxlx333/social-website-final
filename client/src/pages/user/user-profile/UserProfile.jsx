@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../../../context/UserContext';
 import { formatProfileDate } from '../../../../../client/src/lib/formatProfileTime.js';
 import style from './UserProfile.module.css';
+import defaultUserImage from '../../../assets/userDefaultProfile.svg';
 
 export function UserProfile() {
   const { role, email, registeredAt, profileImage, updateProfileImage } =
@@ -45,7 +46,7 @@ export function UserProfile() {
             <div className={`${style.profileHeader} mb-3`}>
               <img
                 className={`${style.profileImage} ${style.fadeIn}`}
-                src={image}
+                src={image || defaultUserImage}
                 alt="User"
               />
               <form>

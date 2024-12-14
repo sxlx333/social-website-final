@@ -1,7 +1,34 @@
+.tableRow {
+  transition: background-color 0.3s ease;
+}
+
+.tableRow:hover {
+  background-color: #f8f9fa;
+}
+
+.tableCell {
+  padding: 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 0.9rem;
+  color: #333;
+}
+
 .profileImage {
   height: 3rem;
   width: 3rem;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
+  border: 2px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.deleteButton {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
 }

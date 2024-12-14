@@ -2,7 +2,7 @@ import { UserTableRow } from './UserTableRow.jsx';
 
 import styles from './UserTable.module.css';
 
-export default function UserTable({ data }) {
+export function UserTable({ data }) {
   return (
     <div className={styles.tableContainer}>
       <table className={`${styles.table} ${styles.tableStriped}`}>

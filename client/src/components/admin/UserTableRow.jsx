@@ -4,6 +4,7 @@ import { UserRoleSelect } from './UserRoleSelect';
 import defaultUserImage from '../../assets/userDefaultProfile.svg';
 import { useState } from 'react';
 import { API_RESPONSE_STATUS } from '../../lib/enums';
+import { formatProfileDate } from '../../lib/formatProfileTime';
 
 export function UserTableRow({ userData }) {
   const [canDelete, setCanDelete] = useState(true);
@@ -61,7 +62,9 @@ export function UserTableRow({ userData }) {
       <td className={styles.tableCell}>
         <UserRoleSelect userId={userData.id} currentRole={userData.role} />
       </td>
-      <td className={styles.tableCell}>{userData.registered_at}</td>
+      <td className={styles.tableCell}>
+        {formatProfileDate(userData.registered_at)}
+      </td>
       <td className={styles.tableCell}>
         <span className={`badge rounded-pill ${statusStyle}`}>
           {statusText}

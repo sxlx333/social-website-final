@@ -2,10 +2,17 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
 }
 
 header {
   height: 76px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: white;
 }
 
 footer {
@@ -20,6 +27,7 @@ footer {
   background-position: center;
   background-size: cover;
   position: relative;
+  z-index: 1;
 }
 
 .content::before {
@@ -30,12 +38,12 @@ footer {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1;
+  z-index: -1;
 }
 .public-layout {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 99vh;
 }
 header,
 footer {

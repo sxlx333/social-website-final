@@ -14,11 +14,11 @@
 }
 .userProfileContainer {
   margin: 123px auto;
-  min-height: calc(100vh - 283px - 40px);
+  min-height: calc(100vh - 396px);
   background-color: #f9f9f9;
   padding: 20px 30px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 16px rgba(0, 0, 0, 0.4);
 }
 
 .customButton {

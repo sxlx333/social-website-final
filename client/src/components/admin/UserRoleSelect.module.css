@@ -1,0 +1,23 @@
+.userRoleSelect {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.5rem;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.userRoleSelect:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.5);
+}
+
+.userRoleSelect:hover {
+  border-color: #0056b3;
+  background-color: #f1f1f1;
+}

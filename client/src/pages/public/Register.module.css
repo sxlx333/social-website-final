@@ -5,7 +5,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 84vh;
+  min-height: calc(100vh - 152px);
+
   position: relative;
   background-image: url('../../assets/background4.jpg');
   background-size: cover;

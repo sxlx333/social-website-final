@@ -37,7 +37,7 @@ export function UserProfile() {
 
   return (
     <div className={style.pageWrapper}>
-      <main>
+      <main className={style.mainContainer}>
         <div className={`container px-4 ${style.userProfileContainer}`}>
           <div className="row align-items-center mb-5">
             <h1 className="text-center">Vartotojo profilis</h1>

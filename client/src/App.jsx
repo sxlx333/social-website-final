@@ -32,12 +32,16 @@ import { AdminActivePosts } from './pages/admin/AdminActivePosts';
 import { AdminBlockedPosts } from './pages/admin/AdminBlockedPosts';
 import { AdminSettings } from './pages/admin/AdminSettings';
 import { AdminDeletedAccounts } from './pages/admin/AdminDeletedAccounts';
+// ----------
+
+import ScrollToTop from './components/ScrollToTop';
 
 export function App() {
   return (
     <UserContextWrapper>
       <PostsContextWrapper>
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route Component={PublicLayout}>
               <Route index path="/" element={<Home />}></Route>

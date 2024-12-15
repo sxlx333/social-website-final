@@ -1,11 +1,5 @@
-main {
-  margin-top: 100px;
-}
-
 .twoSectionContainer {
-  margin-top: 100px;
-  padding: 20px;
-  border-radius: 10px;
+  margin-top: calc(max(0px, 100vh - 846px));
 }
 
 .homeRegistrationContainer {
@@ -15,7 +9,7 @@ main {
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 5%;
-  min-height: 66vh;
+  min-height: calc(100vh - 217px);
   display: flex;
   align-items: center;
   justify-content: center;

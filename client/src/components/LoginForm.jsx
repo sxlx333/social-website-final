@@ -7,8 +7,8 @@ export function LoginForm() {
   const { login } = useContext(UserContext);
 
   // TODO: kai darbai bus baigti - pasalinti email/password reiksmes
-  const [email, setEmail] = useState('chuck@norris.com');
-  const [password, setPassword] = useState('chuck@norris.comchuck@norris.com');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
   const [alertColor, setAlertColor] = useState('alert-info');
 

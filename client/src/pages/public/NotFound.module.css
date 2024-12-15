@@ -1,0 +1,35 @@
+.notfoundPage {
+  height: calc(100vh - 152px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.notfoundContainer {
+  text-align: center;
+  padding: 20px;
+}
+
+.notfoundRow {
+  display: flex;
+  justify-content: center;
+}
+
+.notfoundContent {
+  max-width: 600px;
+}
+
+.notfoundTitle {
+  font-size: 6rem;
+  margin: 0;
+  font-weight: bold;
+  color: #f1f1f1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.notfoundText {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+  color: #ddd;
+}

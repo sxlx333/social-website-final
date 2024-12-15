@@ -1,11 +1,13 @@
+import styles from './NotFound.module.css';
+
 export function NotFound() {
   return (
-    <main>
-      <section className="container">
-        <div className="row">
-          <div className="col-12">
-            <h1>404</h1>
-            <p>Norimas puslapis nerastas</p>
+    <main className={styles.notfoundPage}>
+      <section className={styles.notfoundContainer}>
+        <div className={styles.notfoundRow}>
+          <div className={styles.notfoundContent}>
+            <h1 className={styles.notfoundTitle}>404</h1>
+            <p className={styles.notfoundText}>Norimas puslapis nerastas</p>
           </div>
         </div>
       </section>

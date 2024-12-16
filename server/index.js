@@ -41,7 +41,7 @@ app.use(cookieParser);
 app.use(getUserData);
 
 app.get('/', homePage);
-
+// for test
 // NEIDOMU KAS TU
 app.post('/api/register', notLoggedInAccessOnly, registerPostAPI);
 app.post('/api/login', notLoggedInAccessOnly, loginPostAPI);

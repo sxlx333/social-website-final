@@ -9,7 +9,7 @@
     "server:dev": "npm --prefix ./server/ run dev",
     "build": "npm --prefix ./client/ run build",
     "start": "npm run build && node server/index.js",
-    "heroku-postbuild": "npm install --prefix ./client && npm run build --prefix ./client"
+    "heroku-postbuild": "npm run build --prefix ./client"
   },
   "repository": {
     "type": "git",

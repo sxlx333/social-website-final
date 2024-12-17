@@ -8,7 +8,7 @@
     "client:dev": "npm --prefix ./client/ run dev",
     "server:dev": "npm --prefix ./server/ run dev",
     "build": "npm --prefix ./client/ run build",
-    "start": "npm run build && node server/index.js",
+    "start": "cd server && node index.js",
     "heroku-postbuild": "npm install --prefix ./client && npm run build --prefix ./client"
   },
   "repository": {
@@ -25,7 +25,13 @@
   "dependencies": {
     "express": "^4.21.2",
     "multer": "^1.4.5-lts.1",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "helmet": "^8.0.0",
+    "mysql2": "^3.11.3"
   },
   "engines": {
     "node": "16.x",

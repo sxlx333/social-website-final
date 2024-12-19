@@ -3,9 +3,9 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/social-website-final/', // Ensure this matches the deployment subdirectory on Render
+  base: '/', // App is served from the root, not a subpath
   build: {
-    outDir: 'dist', // Correct output directory for build
-    assetsDir: 'assets', // Ensure assets are stored in a dedicated folder
+    outDir: 'dist',
+    assetsDir: 'assets',
   },
 });

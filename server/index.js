@@ -36,6 +36,16 @@ app.use(
   })
 );
 
+app.get('/test-db-connection', async (req, res) => {
+  try {
+    const [rows] = await connection.query('SELECT 1'); // Simple query to check the connection
+    res.status(200).send('Database connection successful');
+  } catch (error) {
+    console.error('Database connection test failed:', error);
+    res.status(500).send('Database connection test failed');
+  }
+});
+
 app.use(express.static('./public'));
 app.use(cookieParser);
 app.use(getUserData);

@@ -15,7 +15,7 @@ export function FeedForm() {
       return;
     }
 
-    fetch('https://social-website-gandalizdis.onrender.com/api/post', {
+    fetch('https://social-website-final-backend.onrender.com/api/post', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

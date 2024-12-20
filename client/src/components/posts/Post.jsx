@@ -49,17 +49,20 @@ export function Post({ post }) {
   }, []);
 
   function handleLikeClick(reactionTypeId) {
-    fetch('https://social-website-gandalizdis.onrender.com/api/post-reaction', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        postId: post.post_id,
-        reactionTypeId: reactionTypeId,
-      }),
-    })
+    fetch(
+      'https://social-website-final-backend.onrender.com/api/post-reaction',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          postId: post.post_id,
+          reactionTypeId: reactionTypeId,
+        }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 'success') {

@@ -35,7 +35,7 @@ export function RegistrationForm() {
       return;
     }
 
-    fetch('https://social-website-gandalizdis.onrender.com/api/register', {
+    fetch('https://social-website-final-backend.onrender.com/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

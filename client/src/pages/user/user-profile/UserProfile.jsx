@@ -20,7 +20,7 @@ export function UserProfile() {
       formData.append('user_profile_image', file);
 
       fetch(
-        'https://social-website-gandalizdis.onrender.com/api/upload/profile',
+        'https://social-website-final-backend.onrender.com/api/upload/profile',
         {
           method: 'POST',
           credentials: 'include',

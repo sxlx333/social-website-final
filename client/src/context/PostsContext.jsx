@@ -52,7 +52,7 @@ export function PostsContextWrapper(props) {
 
   async function loadInitialPosts() {
     return fetch(
-      'https://social-website-gandalizdis.onrender.com/api/post/initial',
+      'https://social-website-final-backend.onrender.com/api/post/initial',
       {
         method: 'GET',
         credentials: 'include',
@@ -81,7 +81,7 @@ export function PostsContextWrapper(props) {
 
     const newestPostId = posts.at(0)?.post_id ?? 0;
     return fetch(
-      `https://social-website-gandalizdis.onrender.com/api/post/new/${newestPostId}`,
+      `https://social-website-final-backend.onrender.com/api/post/new/${newestPostId}`,
       {
         method: 'GET',
         credentials: 'include',
@@ -109,7 +109,7 @@ export function PostsContextWrapper(props) {
     const lastPostId = posts.at(-1)?.post_id ?? 0;
     try {
       const res = await fetch(
-        'https://social-website-gandalizdis.onrender.com/api/post/old/' +
+        'https://social-website-final-backend.onrender.com/api/post/old/' +
           lastPostId,
         {
           method: 'GET',

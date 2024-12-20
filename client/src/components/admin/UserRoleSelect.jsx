@@ -9,7 +9,7 @@ export function UserRoleSelect({ userId, currentRole }) {
     setNewRole(e.target.value);
 
     fetch(
-      'https://social-website-gandalizdis.onrender.com/api/admin/change-account-role',
+      'https://social-website-final-backend.onrender.com/api/admin/change-account-role',
       {
         method: 'PUT',
         headers: {

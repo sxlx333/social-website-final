@@ -33,7 +33,7 @@ export function UserTableRow({ userData }) {
 
   function handleDelete() {
     fetch(
-      'https://social-website-gandalizdis.onrender.com/api/admin/accounts/' +
+      'https://social-website-final-backend.onrender.com/api/admin/accounts/' +
         userData.id,
       {
         method: 'DELETE',

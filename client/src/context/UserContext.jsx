@@ -30,7 +30,7 @@ export function UserContextWrapper(props) {
   );
 
   useEffect(() => {
-    fetch('https://social-website-gandalizdis.onrender.com/api/login', {
+    fetch('https://social-website-final-backend.onrender.com/api/login', {
       method: 'GET',
       credentials: 'include',
     })

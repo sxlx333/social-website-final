@@ -37,7 +37,7 @@ uploadApiRouter.post(
   uploadProfileImage.single('user_profile_image'),
   async (req, res) => {
     const filePath =
-      'https://social-website-gandalizdis.onrender.com/img/users/' +
+      'https://social-website-final-backend.onrender.com/img/users/' +
       req.file.filename;
 
     try {

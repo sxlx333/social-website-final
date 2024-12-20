@@ -7,7 +7,7 @@ export function AdminUserAccounts() {
 
   useEffect(() => {
     fetch(
-      'https://social-website-gandalizdis.onrender.com/api/admin/accounts/users',
+      'https://social-website-final-backend.onrender.com/api/admin/accounts/users',
       {
         method: 'GET',
         credentials: 'include',

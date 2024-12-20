@@ -15,6 +15,7 @@ import { notLoggedInAccessOnly } from './middleware/notLoggedInAccessOnly.js';
 import { uploadApiRouter } from './api/uploadAPI.js';
 import { adminApiRouter } from './router/adminRouter.js';
 import { postReactionPostAPI } from './api/reactionAPI.js';
+import { connection } from './db.js';
 
 const app = express();
 const port = process.env.PORT || 5114;

@@ -8,17 +8,20 @@ export function UserRoleSelect({ userId, currentRole }) {
   function handleChange(e) {
     setNewRole(e.target.value);
 
-    fetch('http://localhost:5114/api/admin/change-account-role', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        userId: userId,
-        newRole: e.target.value,
-      }),
-    })
+    fetch(
+      'https://social-website-gandalizdis.onrender.com/api/admin/change-account-role',
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          userId: userId,
+          newRole: e.target.value,
+        }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

@@ -19,11 +19,14 @@ export function UserProfile() {
       const formData = new FormData();
       formData.append('user_profile_image', file);
 
-      fetch('http://localhost:5114/api/upload/profile', {
-        method: 'POST',
-        credentials: 'include',
-        body: formData,
-      })
+      fetch(
+        'https://social-website-gandalizdis.onrender.com/api/upload/profile',
+        {
+          method: 'POST',
+          credentials: 'include',
+          body: formData,
+        }
+      )
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 'success') {

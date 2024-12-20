@@ -6,10 +6,13 @@ export function AdminAllAccounts() {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5114/api/admin/accounts', {
-      method: 'GET',
-      credentials: 'include',
-    })
+    fetch(
+      'https://social-website-gandalizdis.onrender.com/api/admin/accounts',
+      {
+        method: 'GET',
+        credentials: 'include',
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 'success') {

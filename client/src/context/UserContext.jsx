@@ -1,15 +1,15 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from 'react';
 
 export const initialUserContext = {
-  role: "public",
+  role: 'public',
   userId: 0,
-  username: "",
+  username: '',
   isLoggedIn: null,
-  email: "",
-  profileImage: "",
-  registeredAt: "",
+  email: '',
+  profileImage: '',
+  registeredAt: '',
   login: () => {},
   logout: () => {},
 };
@@ -30,12 +30,12 @@ export function UserContextWrapper(props) {
   );
 
   useEffect(() => {
-    fetch("http://localhost:5114/api/login", {
-      method: "GET",
-      credentials: "include",
+    fetch('https://social-website-gandalizdis.onrender.com/api/login', {
+      method: 'GET',
+      credentials: 'include',
     })
       .then((res) => res.json())
-      .then((data) => (data.status === "error" ? logout() : login(data)))
+      .then((data) => (data.status === 'error' ? logout() : login(data)))
       .catch(console.error);
   }, []);
 

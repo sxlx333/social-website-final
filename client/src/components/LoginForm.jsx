@@ -25,7 +25,7 @@ export function LoginForm() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    fetch('http://localhost:5114/api/login', {
+    fetch('https://social-website-gandalizdis.onrender.com/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -32,10 +32,14 @@ export function UserTableRow({ userData }) {
   }
 
   function handleDelete() {
-    fetch('http://localhost:5114/api/admin/accounts/' + userData.id, {
-      method: 'DELETE',
-      credentials: 'include',
-    })
+    fetch(
+      'https://social-website-gandalizdis.onrender.com/api/admin/accounts/' +
+        userData.id,
+      {
+        method: 'DELETE',
+        credentials: 'include',
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

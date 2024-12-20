@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
-import { createContext, useContext, useEffect, useState } from "react";
-import { UserContext } from "./UserContext";
-import { REACTION_TYPE } from "../../../server/lib/enum";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { UserContext } from './UserContext';
+import { REACTION_TYPE } from '../../../server/lib/enum';
 
 export const initialPostsContext = {
   posts: [],
@@ -51,17 +51,20 @@ export function PostsContextWrapper(props) {
   }, [isLoggedIn, posts]);
 
   async function loadInitialPosts() {
-    return fetch("http://localhost:5114/api/post/initial", {
-      method: "GET",
-      credentials: "include",
-    })
+    return fetch(
+      'https://social-website-gandalizdis.onrender.com/api/post/initial',
+      {
+        method: 'GET',
+        credentials: 'include',
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data.posts)) {
           setPosts(() => [...data.posts]);
         } else {
           console.error(
-            "Unexpected API response: data.posts is not an array",
+            'Unexpected API response: data.posts is not an array',
             data
           );
         }
@@ -77,24 +80,27 @@ export function PostsContextWrapper(props) {
     }
 
     const newestPostId = posts.at(0)?.post_id ?? 0;
-    return fetch(`http://localhost:5114/api/post/new/${newestPostId}`, {
-      method: "GET",
-      credentials: "include",
-    })
+    return fetch(
+      `https://social-website-gandalizdis.onrender.com/api/post/new/${newestPostId}`,
+      {
+        method: 'GET',
+        credentials: 'include',
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === "success" && Array.isArray(data.posts)) {
+        if (data.status === 'success' && Array.isArray(data.posts)) {
           return data.posts;
         } else {
           console.error(
-            "Unexpected API response: data.posts is not an array",
+            'Unexpected API response: data.posts is not an array',
             data
           );
           return [];
         }
       })
       .catch((err) => {
-        console.error("Error fetching new posts:", err);
+        console.error('Error fetching new posts:', err);
         return [];
       });
   }
@@ -103,16 +109,17 @@ export function PostsContextWrapper(props) {
     const lastPostId = posts.at(-1)?.post_id ?? 0;
     try {
       const res = await fetch(
-        "http://localhost:5114/api/post/old/" + lastPostId,
+        'https://social-website-gandalizdis.onrender.com/api/post/old/' +
+          lastPostId,
         {
-          method: "GET",
-          credentials: "include",
+          method: 'GET',
+          credentials: 'include',
         }
       );
 
       const data = await res.json();
 
-      if (data.status === "success" && Array.isArray(data.posts)) {
+      if (data.status === 'success' && Array.isArray(data.posts)) {
         setPosts((prevPosts) => [...prevPosts, ...data.posts]);
         return data.posts;
       } else {

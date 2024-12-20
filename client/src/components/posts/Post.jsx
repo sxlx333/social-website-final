@@ -49,7 +49,7 @@ export function Post({ post }) {
   }, []);
 
   function handleLikeClick(reactionTypeId) {
-    fetch('http://localhost:5114/api/post-reaction', {
+    fetch('https://social-website-gandalizdis.onrender.com/api/post-reaction', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -10,7 +10,7 @@ export function Header({ fullWidth }) {
   const { isLoggedIn, role, logout } = useContext(UserContext);
 
   function handleLogoutClick() {
-    fetch('http://localhost:5114/api/logout', {
+    fetch('https://social-website-gandalizdis.onrender.com/api/logout', {
       credentials: 'include',
     })
       .then((res) => res.json())

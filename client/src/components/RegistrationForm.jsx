@@ -35,7 +35,7 @@ export function RegistrationForm() {
       return;
     }
 
-    fetch('http://localhost:5114/api/register', {
+    fetch('https://social-website-gandalizdis.onrender.com/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

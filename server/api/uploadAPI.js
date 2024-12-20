@@ -1,14 +1,14 @@
-import express from "express";
-import multer from "multer";
-import { connection } from "../db.js";
-import { API_RESPONSE_STATUS } from "../lib/enum.js";
+import express from 'express';
+import multer from 'multer';
+import { connection } from '../db.js';
+import { API_RESPONSE_STATUS } from '../lib/enum.js';
 
 export const uploadApiRouter = express.Router();
 
-uploadApiRouter.post("/", (req, res) => {
+uploadApiRouter.post('/', (req, res) => {
   return res.status(404).json({
     status: API_RESPONSE_STATUS.ERROR,
-    msg: "Netikslus API adresas",
+    msg: 'Netikslus API adresas',
   });
 });
 
@@ -16,12 +16,12 @@ uploadApiRouter.post("/", (req, res) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/img/users");
+    cb(null, 'public/img/users');
   },
   filename: function (req, file, cb) {
-    const extension = file.originalname.split(".").at(-1);
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, "profile" + "-" + uniqueSuffix + "." + extension);
+    const extension = file.originalname.split('.').at(-1);
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, 'profile' + '-' + uniqueSuffix + '.' + extension);
   },
 });
 
@@ -33,13 +33,15 @@ const uploadProfileImage = multer({
 });
 
 uploadApiRouter.post(
-  "/profile",
-  uploadProfileImage.single("user_profile_image"),
+  '/profile',
+  uploadProfileImage.single('user_profile_image'),
   async (req, res) => {
-    const filePath = "http://localhost:5114/img/users/" + req.file.filename;
+    const filePath =
+      'https://social-website-gandalizdis.onrender.com/img/users/' +
+      req.file.filename;
 
     try {
-      const sql = "UPDATE users SET profile_image = ? WHERE id = ?;";
+      const sql = 'UPDATE users SET profile_image = ? WHERE id = ?;';
       const updateResult = await connection.execute(sql, [
         filePath,
         req.user.id,
@@ -51,19 +53,19 @@ uploadApiRouter.post(
       ) {
         return res.status(500).json({
           status: API_RESPONSE_STATUS.ERROR,
-          msg: "Nepavyko issaugoti norimos nuotraukos",
+          msg: 'Nepavyko issaugoti norimos nuotraukos',
         });
       }
     } catch (error) {
       return res.status(500).json({
         status: API_RESPONSE_STATUS.ERROR,
-        msg: "Nepavyko issaugoti norimos nuotraukos",
+        msg: 'Nepavyko issaugoti norimos nuotraukos',
       });
     }
 
     return res.status(201).json({
       status: API_RESPONSE_STATUS.SUCCESS,
-      msg: "Failas ikeltas",
+      msg: 'Failas ikeltas',
       path: filePath,
     });
   }

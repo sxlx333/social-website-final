@@ -11,9 +11,11 @@ export let connection = null;
       password: DB_PASS,
       database: DB_DATABASE,
       port: DB_PORT,
+      connectTimeout: 10000,
     });
     console.log('Database connected successfully');
   } catch (error) {
-    console.error('Database connection failed:', error);
+    console.error('Database connection failed:', error.message);
+    console.error('Details:', error);
   }
 })();

@@ -39,7 +39,7 @@ app.use(
 
 app.get('/test-db-connection', async (req, res) => {
   try {
-    const [rows] = await connection.query('SELECT 1'); // Simple query to check the connection
+    const [rows] = await connection.query('SELECT 1'); // added for testing
     res.status(200).send('Database connection successful');
   } catch (error) {
     console.error('Database connection test failed:', error);

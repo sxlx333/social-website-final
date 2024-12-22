@@ -1,5 +1,5 @@
 .twoSectionContainer {
-  margin-top: calc(max(0px, 100vh - 846px));
+  margin-top: max(0px, 100vh - 939px);
 }
 
 .homeRegistrationContainer {

@@ -1,14 +1,14 @@
-import { IsValid } from "../lib/IsValid.js";
-import { connection } from "../db.js";
-import { randomString } from "../lib/randomString.js";
-import { COOKIE_ALLOWED_SYMBOLS, COOKIE_MAX_AGE, COOKIE_SIZE } from "../env.js";
-import { API_RESPONSE_STATUS, ROLE } from "../lib/enum.js";
-import { hash } from "../lib/hash.js";
+import { IsValid } from '../lib/IsValid.js';
+import { connection } from '../db.js';
+import { randomString } from '../lib/randomString.js';
+import { COOKIE_ALLOWED_SYMBOLS, COOKIE_MAX_AGE, COOKIE_SIZE } from '../env.js';
+import { API_RESPONSE_STATUS, ROLE } from '../lib/enum.js';
+import { hash } from '../lib/hash.js';
 
 export async function loginPostAPI(req, res) {
   const requiredFields = [
-    { field: "email", validation: IsValid.email },
-    { field: "password", validation: IsValid.password },
+    { field: 'email', validation: IsValid.email },
+    { field: 'password', validation: IsValid.password },
   ];
 
   const [isErr, errMessage] = IsValid.requiredFields(req.body, requiredFields);
@@ -34,18 +34,18 @@ export async function loginPostAPI(req, res) {
     if (selectResult[0].length !== 1) {
       return res.status(400).json({
         status: API_RESPONSE_STATUS.ERROR,
-        msg: "Prisijungti nepavyko, nes nesutampa email ir password pora.",
+        msg: 'Prisijungti nepavyko, nes nesutampa email ir password pora.',
       });
     } else {
       user = selectResult[0][0];
     }
   } catch (error) {
     const errCodes = {
-      ER_DUP_ENTRY: "Toks email jau panaudotas",
+      ER_DUP_ENTRY: 'Toks email jau panaudotas',
     };
     const msg =
       errCodes[error.code] ??
-      "Registracija nepavyko del serverio klaidos. Pabandykite veliau";
+      'Registracija nepavyko del serverio klaidos. Pabandykite veliau';
 
     return res.status(errCodes[error.code] ? 400 : 500).json({
       status: API_RESPONSE_STATUS.ERROR,
@@ -57,42 +57,42 @@ export async function loginPostAPI(req, res) {
   const token = randomString(+process.env.COOKIE_SIZE);
 
   try {
-    const sql = "INSERT INTO tokens (user_id, token) VALUES (?, ?);";
+    const sql = 'INSERT INTO tokens (user_id, token) VALUES (?, ?);';
     const insertResult = await connection.execute(sql, [user.id, token]);
 
     if (insertResult[0].affectedRows !== 1) {
       return res.status(500).json({
         status: API_RESPONSE_STATUS.ERROR,
-        msg: "Nepavyko prisijungti",
+        msg: 'Nepavyko prisijungti',
       });
     }
   } catch (error) {
     return res.status(500).json({
       status: API_RESPONSE_STATUS.ERROR,
-      msg: "Nepavyko prisijungti",
+      msg: 'Nepavyko prisijungti',
     });
   }
 
   if (user.status === 1) {
     try {
-      const sql = "UPDATE users SET status = 2 WHERE id = ?;";
+      const sql = 'UPDATE users SET status = 2 WHERE id = ?;';
       await connection.execute(sql, [user.id]);
     } catch (error) {}
   }
 
   const cookie = [
-    "loginToken=" + token,
-    "domain=localhost",
-    "path=/",
-    "max-age=" + COOKIE_MAX_AGE,
-    "SameSite=Lax",
-    // 'Secure',
-    "HttpOnly",
+    `loginToken=${token}`,
+    `domain=${process.env.COOKIE_DOMAIN}`,
+    'path=/',
+    `max-age=${COOKIE_MAX_AGE}`,
+    'SameSite=None',
+    'Secure',
+    'HttpOnly',
   ];
 
-  return res.status(200).set("Set-Cookie", cookie.join("; ")).json({
+  return res.status(200).set('Set-Cookie', cookie.join('; ')).json({
     status: API_RESPONSE_STATUS.SUCCESS,
-    msg: "Ok",
+    msg: 'Ok',
     id: user.id,
     role: user.role,
     username: user.username,
@@ -109,14 +109,14 @@ export async function loginGetAPI(req, res) {
   if (!loginToken) {
     return res.status(400).json({
       status: API_RESPONSE_STATUS.ERROR,
-      msg: "Error: truksta loginToken rakto",
+      msg: 'Error: truksta loginToken rakto',
       isLoggedIn: false,
       role: ROLE.PUBLIC,
     });
   }
 
   // 2) ar loginToken string ir tinkamo ilgio
-  if (typeof loginToken !== "string" || loginToken.length !== COOKIE_SIZE) {
+  if (typeof loginToken !== 'string' || loginToken.length !== COOKIE_SIZE) {
     return res.status(400).json({
       status: API_RESPONSE_STATUS.ERROR,
       msg: `Error: loginToken raktas turi buti string ir ${COOKIE_SIZE} ilgio`,
@@ -173,18 +173,18 @@ export async function loginGetAPI(req, res) {
 
     if (tokenObj.created_at.getTime() + COOKIE_MAX_AGE * 1000 < Date.now()) {
       const cookie = [
-        "loginToken=" + loginToken,
-        "domain=localhost",
-        "path=/",
-        "max-age=-1",
-        "SameSite=Lax",
+        'loginToken=' + loginToken,
+        'domain=localhost',
+        'path=/',
+        'max-age=-1',
+        'SameSite=Lax',
         // 'Secure',
-        "HttpOnly",
+        'HttpOnly',
       ];
 
-      return res.status(200).set("Set-Cookie", cookie.join("; ")).json({
+      return res.status(200).set('Set-Cookie', cookie.join('; ')).json({
         status: API_RESPONSE_STATUS.ERROR,
-        msg: "LOL",
+        msg: 'LOL',
         isLoggedIn: false,
         role: ROLE.PUBLIC,
       });

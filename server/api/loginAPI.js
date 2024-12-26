@@ -174,11 +174,11 @@ export async function loginGetAPI(req, res) {
     if (tokenObj.created_at.getTime() + COOKIE_MAX_AGE * 1000 < Date.now()) {
       const cookie = [
         'loginToken=' + loginToken,
-        'domain=localhost',
+        `domain=${process.env.COOKIE_DOMAIN}`,
         'path=/',
-        'max-age=-1',
+        `max-age=${COOKIE_MAX_AGE}`,
         'SameSite=Lax',
-        // 'Secure',
+        'Secure',
         'HttpOnly',
       ];
 

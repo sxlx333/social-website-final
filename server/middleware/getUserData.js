@@ -1,19 +1,19 @@
-import { connection } from "../db.js";
-import { COOKIE_ALLOWED_SYMBOLS, COOKIE_MAX_AGE, COOKIE_SIZE } from "../env.js";
-import { API_RESPONSE_STATUS, ROLE } from "../lib/enum.js";
+import { connection } from '../db.js';
+import { COOKIE_ALLOWED_SYMBOLS, COOKIE_MAX_AGE, COOKIE_SIZE } from '../env.js';
+import { API_RESPONSE_STATUS, ROLE } from '../lib/enum.js';
 
 export async function getUserData(req, res, next) {
   req.user = {
     isLoggedIn: false,
     role: ROLE.PUBLIC,
-    email: "",
+    email: '',
     id: -1,
     registeredAt: -1,
   };
 
   const { loginToken } = req.cookie;
 
-  if (typeof loginToken !== "string" || loginToken.length !== COOKIE_SIZE) {
+  if (typeof loginToken !== 'string' || loginToken.length !== COOKIE_SIZE) {
     return next();
   }
 
@@ -48,18 +48,18 @@ export async function getUserData(req, res, next) {
 
     if (tokenObj.created_at.getTime() + COOKIE_MAX_AGE * 1000 < Date.now()) {
       const cookie = [
-        "loginToken=" + loginToken,
-        "domain=localhost",
-        "path=/",
-        "max-age=-1",
-        "SameSite=Lax",
-        // 'Secure',
-        "HttpOnly",
+        'loginToken=' + loginToken,
+        `domain=${process.env.COOKIE_DOMAIN}`,
+        'path=/',
+        `max-age=${COOKIE_MAX_AGE}`,
+        'SameSite=Lax',
+        'Secure',
+        'HttpOnly',
       ];
 
-      return res.status(200).set("Set-Cookie", cookie.join("; ")).json({
+      return res.status(200).set('Set-Cookie', cookie.join('; ')).json({
         status: API_RESPONSE_STATUS.ERROR,
-        msg: "LOL",
+        msg: 'LOL',
         isLoggedIn: false,
         role: ROLE.PUBLIC,
       });

@@ -6,7 +6,7 @@ export async function logoutGetAPI(req, res) {
     'loginToken=' + req.cookie.loginToken,
     `domain=${process.env.COOKIE_DOMAIN}`,
     'path=/',
-    `max-age=${COOKIE_MAX_AGE}`,
+    'max-age=-1',
     'SameSite=Lax',
     'Secure',
     'HttpOnly',

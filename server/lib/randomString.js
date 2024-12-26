@@ -1,7 +1,8 @@
-import { COOKIE_ALLOWED_SYMBOLS } from "../env.js";
+import { COOKIE_ALLOWED_SYMBOLS } from '../env.js';
 
 export function randomString(length = 20) {
-  let str = "";
+  console.log(`COOKIE_SIZE from env: ${length}`);
+  let str = '';
 
   for (let i = 0; i < length; i++) {
     const index = Math.floor(Math.random() * COOKIE_ALLOWED_SYMBOLS.length);

@@ -48,18 +48,18 @@ export async function getUserData(req, res, next) {
 
     if (tokenObj.created_at.getTime() + COOKIE_MAX_AGE * 1000 < Date.now()) {
       const cookie = [
-        'loginToken=' + loginToken,
+        `loginToken=${loginToken}`,
         `domain=${process.env.COOKIE_DOMAIN}`,
         'path=/',
-        `max-age=${COOKIE_MAX_AGE}`,
+        'max-age=0',
         'SameSite=Lax',
         'Secure',
         'HttpOnly',
       ];
 
-      return res.status(200).set('Set-Cookie', cookie.join('; ')).json({
+      return res.status(401).set('Set-Cookie', cookie.join('; ')).json({
         status: API_RESPONSE_STATUS.ERROR,
-        msg: 'LOL',
+        msg: 'Sesija baigėsi, prisijunkite iš naujo.',
         isLoggedIn: false,
         role: ROLE.PUBLIC,
       });
@@ -67,7 +67,7 @@ export async function getUserData(req, res, next) {
   } catch (error) {
     return res.status(500).json({
       status: API_RESPONSE_STATUS.ERROR,
-      msg: `Serverio klaida. Nepavyko atpazinti vartotojo sesijos`,
+      msg: `Serverio klaida. Nepavyko atpažinti vartotojo sesijos.`,
       isLoggedIn: false,
       role: ROLE.PUBLIC,
     });

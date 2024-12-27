@@ -3,6 +3,9 @@ import { COOKIE_ALLOWED_SYMBOLS, COOKIE_MAX_AGE, COOKIE_SIZE } from '../env.js';
 import { API_RESPONSE_STATUS, ROLE } from '../lib/enum.js';
 
 export async function getUserData(req, res, next) {
+  // Log cookies received by the server
+  console.log('Cookies received by server:', req.cookies);
+
   req.user = {
     isLoggedIn: false,
     role: ROLE.PUBLIC,
@@ -11,14 +14,19 @@ export async function getUserData(req, res, next) {
     registeredAt: -1,
   };
 
-  const { loginToken } = req.cookie;
+  const { loginToken } = req.cookies;
+
+  // Log the specific `loginToken`
+  console.log('Parsed loginToken:', loginToken);
 
   if (typeof loginToken !== 'string' || loginToken.length !== COOKIE_SIZE) {
+    console.log('Invalid loginToken:', loginToken); // Log why the token is considered invalid
     return next();
   }
 
   for (const s of loginToken) {
     if (!COOKIE_ALLOWED_SYMBOLS.includes(s)) {
+      console.log('loginToken contains invalid characters:', loginToken);
       return next();
     }
   }
@@ -36,17 +44,24 @@ export async function getUserData(req, res, next) {
             WHERE token = ?;`;
     const selectResult = await connection.execute(sql, [loginToken]);
 
+    // Log the database result
+    console.log('Database query result:', selectResult);
+
     if (selectResult[0].length === 0) {
+      console.log('No matching token found in database for:', loginToken);
       return next();
     }
 
     if (selectResult[0].length > 1) {
+      console.log('Multiple tokens found for:', loginToken);
       return next();
     }
 
     tokenObj = selectResult[0][0];
 
     if (tokenObj.created_at.getTime() + COOKIE_MAX_AGE * 1000 < Date.now()) {
+      console.log('Token expired:', tokenObj);
+
       const cookie = [
         `loginToken=${loginToken}`,
         `domain=${process.env.COOKIE_DOMAIN || '.onrender.com'}`,
@@ -65,6 +80,7 @@ export async function getUserData(req, res, next) {
       });
     }
   } catch (error) {
+    console.error('Error querying database or processing token:', error);
     return res.status(500).json({
       status: API_RESPONSE_STATUS.ERROR,
       msg: `Serverio klaida. Nepavyko atpažinti vartotojo sesijos.`,
@@ -80,6 +96,9 @@ export async function getUserData(req, res, next) {
     email: tokenObj.email,
     registeredAt: tokenObj.registered_at,
   };
+
+  // Log the user information set in the request
+  console.log('User authenticated:', req.user);
 
   next();
 }

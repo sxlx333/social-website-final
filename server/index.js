@@ -6,7 +6,8 @@ import { fatalServerErrorResponse } from './middleware/fatalServerErrorResponse.
 import { notFoundPage } from './lib/notFoundPage.js';
 import { registerPostAPI } from './api/registerAPI.js';
 import { loginGetAPI, loginPostAPI } from './api/loginAPI.js';
-import { cookieParser } from './middleware/cookieParser.js';
+// import { cookieParser } from './middleware/cookieParser.js';
+import cookieParser from 'cookie-parser';
 import { logoutGetAPI } from './api/logoutAPI.js';
 import { postGetAPI, postPostAPI } from './api/postAPI.js';
 import { getUserData } from './middleware/getUserData.js';
@@ -39,7 +40,7 @@ app.use(
 
 app.get('/test-db-connection', async (req, res) => {
   try {
-    const [rows] = await connection.query('SELECT 1'); // testing changes
+    const [rows] = await connection.query('SELECT 1'); // testing
     res.status(200).send('Database connection successful');
   } catch (error) {
     console.error('Database connection test failed:', error);
@@ -48,8 +49,20 @@ app.get('/test-db-connection', async (req, res) => {
 });
 
 app.use(express.static('./public'));
-app.use(cookieParser);
+app.use(cookieParser());
 app.use(getUserData);
+
+// testing
+app.use((req, res, next) => {
+  console.log('Middleware: cookieParser');
+  next();
+});
+// testing
+app.use((req, res, next) => {
+  console.log('Middleware: getUserData');
+  console.log('Cookies:', req.cookies);
+  next();
+});
 
 app.get('/', homePage);
 // for test

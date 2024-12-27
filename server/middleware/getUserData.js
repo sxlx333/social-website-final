@@ -4,7 +4,13 @@ import { API_RESPONSE_STATUS, ROLE } from '../lib/enum.js';
 
 export async function getUserData(req, res, next) {
   // Log cookies received by the server
-  console.log('Cookies received by server:', req.cookies);
+  console.log('getUserData Middleware Executed');
+  console.log('Parsed Cookies:', req.cookies);
+
+  if (!req.cookies) {
+    console.error('req.cookies is undefined');
+    return next();
+  }
 
   req.user = {
     isLoggedIn: false,
@@ -18,6 +24,11 @@ export async function getUserData(req, res, next) {
 
   // Log the specific `loginToken`
   console.log('Parsed loginToken:', loginToken);
+
+  if (!loginToken) {
+    console.error('loginToken not found in cookies');
+    return next();
+  }
 
   if (typeof loginToken !== 'string' || loginToken.length !== COOKIE_SIZE) {
     console.log('Invalid loginToken:', loginToken); // Log why the token is considered invalid

@@ -34,6 +34,8 @@ app.use(
 const corsOptions = {
   origin: 'https://social-website-gandalizdis.onrender.com',
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow methods, you can customize it
+  allowedHeaders: ['Content-Type', 'Authorization'], // You can specify custom headers if needed
 };
 
 app.use(cors(corsOptions));

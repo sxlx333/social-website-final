@@ -82,7 +82,9 @@ export async function loginPostAPI(req, res) {
 
   const cookie = [
     `loginToken=${token}`,
-    `domain=${process.env.COOKIE_DOMAIN || '.onrender.com'}`,
+    `domain=${
+      process.env.COOKIE_DOMAIN || '.social-website-final-backend.onrender.com'
+    }`,
     'path=/',
     `max-age=${COOKIE_MAX_AGE}`,
     'SameSite=None',
@@ -174,7 +176,10 @@ export async function loginGetAPI(req, res) {
     if (tokenObj.created_at.getTime() + COOKIE_MAX_AGE * 1000 < Date.now()) {
       const cookie = [
         'loginToken=' + loginToken,
-        `domain=${process.env.COOKIE_DOMAIN || '.onrender.com'}`,
+        `domain=${
+          process.env.COOKIE_DOMAIN ||
+          '.social-website-final-backend.onrender.com'
+        }`,
         'path=/',
         `max-age=${COOKIE_MAX_AGE}`,
         'SameSite=None',

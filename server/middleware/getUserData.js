@@ -75,7 +75,10 @@ export async function getUserData(req, res, next) {
 
       const cookie = [
         `loginToken=${loginToken}`,
-        `domain=${process.env.COOKIE_DOMAIN || '.onrender.com'}`,
+        `domain=${
+          process.env.COOKIE_DOMAIN ||
+          '.social-website-final-backend.onrender.com'
+        }`,
         'path=/',
         'max-age=0',
         'SameSite=None',

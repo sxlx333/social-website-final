@@ -4,7 +4,9 @@ import { API_RESPONSE_STATUS } from '../lib/enum.js';
 export async function logoutGetAPI(req, res) {
   const cookie = [
     'loginToken=' + req.cookie.loginToken,
-    `domain=${process.env.COOKIE_DOMAIN || '.onrender.com'}`,
+    `domain=${
+      process.env.COOKIE_DOMAIN || '.social-website-final-backend.onrender.com'
+    }`,
     'path=/',
     'max-age=-1',
     'SameSite=None',

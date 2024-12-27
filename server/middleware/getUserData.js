@@ -52,7 +52,7 @@ export async function getUserData(req, res, next) {
         `domain=${process.env.COOKIE_DOMAIN || '.onrender.com'}`,
         'path=/',
         'max-age=0',
-        'SameSite=Lax',
+        'SameSite=None',
         'Secure',
         'HttpOnly',
       ];

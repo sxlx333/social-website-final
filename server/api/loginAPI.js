@@ -177,7 +177,7 @@ export async function loginGetAPI(req, res) {
         `domain=${process.env.COOKIE_DOMAIN || '.onrender.com'}`,
         'path=/',
         `max-age=${COOKIE_MAX_AGE}`,
-        'SameSite=Lax',
+        'SameSite=None',
         'Secure',
         'HttpOnly',
       ];

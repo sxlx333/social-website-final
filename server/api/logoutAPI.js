@@ -7,7 +7,7 @@ export async function logoutGetAPI(req, res) {
     `domain=${process.env.COOKIE_DOMAIN || '.onrender.com'}`,
     'path=/',
     'max-age=-1',
-    'SameSite=Lax',
+    'SameSite=None',
     'Secure',
     'HttpOnly',
   ];

@@ -31,12 +31,12 @@ app.use(
     extended: true,
   })
 );
-app.use(
-  cors({
-    origin: 'https://social-website-gandalizdis.onrender.com', //http://localhost:5173
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: 'https://social-website-gandalizdis.onrender.com',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.get('/test-db-connection', async (req, res) => {
   try {

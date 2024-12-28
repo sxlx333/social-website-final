@@ -20,17 +20,25 @@ import { connection } from './db.js';
 const app = express();
 const port = process.env.PORT || 5114;
 
+// const corsOptions = {
+//   origin: 'https://social-website-gandalizdis.onrender.com', // Frontend URL
+//   credentials: true,
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
+//   allowedHeaders: [
+//     'Content-Type',
+//     'Authorization',
+//     'Cookie',
+//     'X-Requested-With',
+//   ], // Include all needed headers
+// };
+
 const corsOptions = {
-  origin: 'https://social-website-gandalizdis.onrender.com', // Frontend URL
+  //Temporary Allow All Origins (Debug Only)
+  origin: '*',
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
-  allowedHeaders: [
-    'Content-Type',
-    'Authorization',
-    'Cookie',
-    'X-Requested-With',
-  ], // Include all needed headers
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 };
+app.use(cors(corsOptions));
 
 // Set up CORS middleware
 app.use(cors(corsOptions));
@@ -95,6 +103,19 @@ app.get('/test-cors', (req, res) => {
   res.json({ message: 'CORS Test Successful' });
 });
 
+app.use((req, res, next) => {
+  console.log(`Request method: ${req.method}, URL: ${req.url}`);
+  console.log('Request headers:', req.headers);
+  next();
+});
+
+app.use((req, res, next) => {
+  res.on('finish', () => {
+    console.log('Response headers:', res.getHeaders());
+  });
+  next();
+});
+
 // Testing database connection
 app.get('/test-db-connection', async (req, res) => {
   try {
@@ -112,13 +133,17 @@ app.get('/test-db-connection', async (req, res) => {
 app.post(
   '/api/login',
   (req, res, next) => {
-    console.log('Middleware chain for /api/login');
-    console.log('Incoming request headers:', req.headers);
+    res.header(
+      'Access-Control-Allow-Origin',
+      'https://social-website-gandalizdis.onrender.com'
+    );
+    res.header('Access-Control-Allow-Credentials', 'true');
     next();
   },
   notLoggedInAccessOnly,
   loginPostAPI
 );
+
 app.post('/api/register', notLoggedInAccessOnly, registerPostAPI);
 
 // REIKIA ZINOTI KAS TU

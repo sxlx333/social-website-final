@@ -1,13 +1,12 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { homePage } from './lib/homePage.js';
 import { notFoundResponse } from './middleware/notFoundResponse.js';
 import { fatalServerErrorResponse } from './middleware/fatalServerErrorResponse.js';
 import { notFoundPage } from './lib/notFoundPage.js';
 import { registerPostAPI } from './api/registerAPI.js';
 import { loginGetAPI, loginPostAPI } from './api/loginAPI.js';
-// import { cookieParser } from './middleware/cookieParser.js';
-import cookieParser from 'cookie-parser';
 import { logoutGetAPI } from './api/logoutAPI.js';
 import { postGetAPI, postPostAPI } from './api/postAPI.js';
 import { getUserData } from './middleware/getUserData.js';
@@ -33,7 +32,10 @@ const corsOptions = {
   ], // Include all needed headers
 };
 
+// Set up CORS middleware
 app.use(cors(corsOptions));
+
+// Preflight request handler for OPTIONS
 app.options('*', (req, res) => {
   res.header(
     'Access-Control-Allow-Origin',
@@ -48,12 +50,14 @@ app.options('*', (req, res) => {
   res.sendStatus(200);
 });
 
+// Middleware to log requests
 app.use((req, res, next) => {
   console.log('Request received:', req.method, req.url);
   console.log('Origin:', req.headers.origin);
   next();
 });
 
+// Middleware to log response headers after the response is sent
 app.use((req, res, next) => {
   res.on('finish', () => {
     console.log('Response Headers:', res.getHeaders());
@@ -61,26 +65,37 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(
-  express.json({
-    type: 'application/json',
-  })
-);
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
+// Body parsers
+app.use(express.json({ type: 'application/json' }));
+app.use(express.urlencoded({ extended: true }));
 
+// Static files
+app.use(express.static('./public'));
+
+// Cookie parser middleware
+app.use(cookieParser());
+app.use(getUserData); // Middleware to extract user data from cookies
+
+// Middleware testing
+app.use((req, res, next) => {
+  console.log('Middleware: cookieParser');
+  next();
+});
+app.use((req, res, next) => {
+  console.log('Middleware: getUserData');
+  console.log('Cookies:', req.cookies);
+  next();
+});
+
+// Route for home page
+app.get('/', homePage);
+
+// Testing CORS endpoint
 app.get('/test-cors', (req, res) => {
-  res.header(
-    'Access-Control-Allow-Origin',
-    'https://social-website-gandalizdis.onrender.com'
-  );
-  res.header('Access-Control-Allow-Credentials', 'true');
   res.json({ message: 'CORS Test Successful' });
 });
 
+// Testing database connection
 app.get('/test-db-connection', async (req, res) => {
   try {
     const [rows] = await connection.query('SELECT 1'); // testing
@@ -91,27 +106,20 @@ app.get('/test-db-connection', async (req, res) => {
   }
 });
 
-app.use(express.static('./public'));
-app.use(cookieParser());
-app.use(getUserData);
+// AUTHENTICATION AND USER ROUTES
 
-// testing
-app.use((req, res, next) => {
-  console.log('Middleware: cookieParser');
-  next();
-});
-// testing
-app.use((req, res, next) => {
-  console.log('Middleware: getUserData');
-  console.log('Cookies:', req.cookies);
-  next();
-});
-
-app.get('/', homePage);
-// for test
 // NEIDOMU KAS TU
+app.post(
+  '/api/login',
+  (req, res, next) => {
+    console.log('Middleware chain for /api/login');
+    console.log('Incoming request headers:', req.headers);
+    next();
+  },
+  notLoggedInAccessOnly,
+  loginPostAPI
+);
 app.post('/api/register', notLoggedInAccessOnly, registerPostAPI);
-app.post('/api/login', notLoggedInAccessOnly, loginPostAPI);
 
 // REIKIA ZINOTI KAS TU
 app.get('/api/login', usersOnly, loginGetAPI);
@@ -124,17 +132,25 @@ app.get('/api/post/old/:olderId', usersOnly, postGetAPI);
 // app.put('/api/post', usersOnly, postPutAPI);
 // app.delete('/api/post', usersOnly, postDeleteAPI);
 
+// REACTIONS
 app.post('/api/post-reaction', usersOnly, postReactionPostAPI);
 
+// FILE UPLOADS
 app.use('/api/upload', usersOnly, uploadApiRouter);
 
+// ADMIN ROUTES
 app.use('/api/admin', adminsOnly, adminApiRouter);
 
+// ERROR HANDLING
+
+// Fallback for 404 (not found)
 app.get('*', notFoundPage);
 
+// Middleware for handling 404 and fatal server errors
 app.use(notFoundResponse);
 app.use(fatalServerErrorResponse);
 
+// Start the server
 app.listen(port, () => {
   console.log('SERVER: http://localhost:' + port);
 });

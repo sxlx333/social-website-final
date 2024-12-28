@@ -90,6 +90,11 @@ app.use(express.static('./public'));
 app.use(cookieParser());
 app.use(getUserData); // Middleware to extract user data from cookies
 
+app.use((req, res, next) => {
+  console.log('Cookies:', req.cookies); // Requires cookie-parser middleware
+  next();
+});
+
 // Middleware testing
 app.use((req, res, next) => {
   console.log('Middleware: cookieParser');

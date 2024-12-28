@@ -34,7 +34,32 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Handle preflight requests
+app.options('*', (req, res) => {
+  res.header(
+    'Access-Control-Allow-Origin',
+    'https://social-website-gandalizdis.onrender.com'
+  );
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Content-Type, Authorization, Cookie, X-Requested-With'
+  );
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.sendStatus(200);
+});
+
+app.use((req, res, next) => {
+  console.log('Request received:', req.method, req.url);
+  console.log('Origin:', req.headers.origin);
+  next();
+});
+
+app.use((req, res, next) => {
+  res.on('finish', () => {
+    console.log('Response Headers:', res.getHeaders());
+  });
+  next();
+});
 
 app.use(
   express.json({
@@ -46,6 +71,15 @@ app.use(
     extended: true,
   })
 );
+
+app.get('/test-cors', (req, res) => {
+  res.header(
+    'Access-Control-Allow-Origin',
+    'https://social-website-gandalizdis.onrender.com'
+  );
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.json({ message: 'CORS Test Successful' });
+});
 
 app.get('/test-db-connection', async (req, res) => {
   try {

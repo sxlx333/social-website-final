@@ -33,11 +33,17 @@ const port = process.env.PORT || 5114;
 // };
 
 const corsOptions = {
-  //Temporary Allow All Origins (Debug Only)
-  origin: '*',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  origin: 'https://social-website-gandalizdis.onrender.com', // Replace '*' with the exact origin
+  credentials: true, // Allow credentials
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'Cookie',
+    'X-Requested-With',
+  ], // Allowed headers
 };
+
 app.use(cors(corsOptions));
 
 // Set up CORS middleware

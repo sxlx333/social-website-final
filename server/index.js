@@ -32,8 +32,9 @@ const port = process.env.PORT || 5114;
 //   ], // Include all needed headers
 // };
 
+// CORS Options
 const corsOptions = {
-  origin: 'https://social-website-gandalizdis.onrender.com', // Replace '*' with the exact origin
+  origin: 'https://social-website-gandalizdis.onrender.com', // Frontend URL
   credentials: true, // Allow credentials
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
   allowedHeaders: [
@@ -44,36 +45,36 @@ const corsOptions = {
   ], // Allowed headers
 };
 
+// Apply CORS Middleware
 app.use(cors(corsOptions));
-
-// Set up CORS middleware
-app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle preflight requests
 
 // Preflight request handler for OPTIONS
-app.options('*', (req, res) => {
-  res.header(
-    'Access-Control-Allow-Origin',
-    'https://social-website-gandalizdis.onrender.com'
-  );
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Content-Type, Authorization, Cookie, X-Requested-With'
-  );
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.sendStatus(200);
-});
+// app.options('*', (req, res) => {
+//   res.header(
+//     'Access-Control-Allow-Origin',
+//     'https://social-website-gandalizdis.onrender.com'
+//   );
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Content-Type, Authorization, Cookie, X-Requested-With'
+//   );
+//   res.header('Access-Control-Allow-Credentials', 'true');
+//   res.sendStatus(200);
+// });
 
-// Middleware to log requests
+// Global Logging Middleware
 app.use((req, res, next) => {
-  console.log('Request received:', req.method, req.url);
+  console.log(`Request: ${req.method} ${req.url}`);
   console.log('Origin:', req.headers.origin);
+  console.log('Request Headers:', req.headers);
   next();
 });
 
-// Middleware to log response headers after the response is sent
 app.use((req, res, next) => {
   res.on('finish', () => {
+    console.log('Response Status:', res.statusCode);
     console.log('Response Headers:', res.getHeaders());
   });
   next();

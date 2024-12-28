@@ -21,6 +21,21 @@ import { connection } from './db.js';
 const app = express();
 const port = process.env.PORT || 5114;
 
+const corsOptions = {
+  origin: 'https://social-website-gandalizdis.onrender.com', // Frontend URL
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'Cookie',
+    'X-Requested-With',
+  ], // Include all needed headers
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle preflight requests
+
 app.use(
   express.json({
     type: 'application/json',
@@ -31,14 +46,6 @@ app.use(
     extended: true,
   })
 );
-const corsOptions = {
-  origin: 'https://social-website-gandalizdis.onrender.com',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow methods, you can customize it
-  allowedHeaders: ['Content-Type', 'Authorization'], // You can specify custom headers if needed
-};
-
-app.use(cors(corsOptions));
 
 app.get('/test-db-connection', async (req, res) => {
   try {

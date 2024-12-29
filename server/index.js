@@ -163,11 +163,12 @@ app.get('/api/login', usersOnly, loginGetAPI);
 app.get(
   '/api/logout',
   (req, res, next) => {
+    console.log('CORS middleware for logout executed');
     res.header(
       'Access-Control-Allow-Origin',
-      'https://social-website-gandalizdis.onrender.com' // Allow your frontend domain
+      'https://social-website-gandalizdis.onrender.com'
     );
-    res.header('Access-Control-Allow-Credentials', 'true'); // Allow cookies to be sent
+    res.header('Access-Control-Allow-Credentials', 'true');
     next();
   },
   usersOnly,

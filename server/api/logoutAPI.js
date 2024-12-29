@@ -2,6 +2,7 @@ import { connection } from '../db.js';
 import { API_RESPONSE_STATUS } from '../lib/enum.js';
 
 export async function logoutGetAPI(req, res) {
+  console.log('logoutGetAPI reached'); // Add this log
   const cookie = [
     'loginToken=' + req.cookie.loginToken,
     `domain=${

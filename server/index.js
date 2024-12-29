@@ -160,7 +160,19 @@ app.post('/api/register', notLoggedInAccessOnly, registerPostAPI);
 
 // REIKIA ZINOTI KAS TU
 app.get('/api/login', usersOnly, loginGetAPI);
-app.get('/api/logout', usersOnly, logoutGetAPI);
+app.get(
+  '/api/logout',
+  (req, res, next) => {
+    res.header(
+      'Access-Control-Allow-Origin',
+      'https://social-website-gandalizdis.onrender.com' // Allow your frontend domain
+    );
+    res.header('Access-Control-Allow-Credentials', 'true'); // Allow cookies to be sent
+    next();
+  },
+  usersOnly,
+  logoutGetAPI
+);
 app.post('/api/post', usersOnly, postPostAPI);
 app.get('/api/post', usersOnly, postGetAPI);
 app.get('/api/post/initial', usersOnly, postGetAPI);

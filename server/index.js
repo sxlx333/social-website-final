@@ -145,6 +145,7 @@ app.get('/test-db-connection', async (req, res) => {
 app.post(
   '/api/login',
   (req, res, next) => {
+    console.log('CORS middleware for /api/login executed');
     res.header(
       'Access-Control-Allow-Origin',
       'https://social-website-gandalizdis.onrender.com'
@@ -152,7 +153,6 @@ app.post(
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
   },
-  notLoggedInAccessOnly,
   loginPostAPI
 );
 
@@ -160,6 +160,20 @@ app.post('/api/register', notLoggedInAccessOnly, registerPostAPI);
 
 // REIKIA ZINOTI KAS TU
 app.get('/api/login', usersOnly, loginGetAPI);
+// app.get(
+//   '/api/logout',
+//   (req, res, next) => {
+//     console.log('CORS middleware for logout executed');
+//     res.header(
+//       'Access-Control-Allow-Origin',
+//       'https://social-website-gandalizdis.onrender.com'
+//     );
+//     res.header('Access-Control-Allow-Credentials', 'true');
+//     next();
+//   },
+//   usersOnly,
+//   logoutGetAPI
+// );
 app.get(
   '/api/logout',
   (req, res, next) => {
@@ -171,7 +185,11 @@ app.get(
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
   },
-  usersOnly,
+  (req, res, next) => {
+    console.log('Middleware: usersOnly');
+    console.log('Cookies:', req.cookies);
+    next();
+  },
   logoutGetAPI
 );
 app.post('/api/post', usersOnly, postPostAPI);

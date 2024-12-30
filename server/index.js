@@ -2,196 +2,78 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { homePage } from './lib/homePage.js';
+import { notFoundPage } from './lib/notFoundPage.js';
 import { notFoundResponse } from './middleware/notFoundResponse.js';
 import { fatalServerErrorResponse } from './middleware/fatalServerErrorResponse.js';
-import { notFoundPage } from './lib/notFoundPage.js';
 import { registerPostAPI } from './api/registerAPI.js';
 import { loginGetAPI, loginPostAPI } from './api/loginAPI.js';
 import { logoutGetAPI } from './api/logoutAPI.js';
 import { postGetAPI, postPostAPI } from './api/postAPI.js';
+import { postReactionPostAPI } from './api/reactionAPI.js';
 import { getUserData } from './middleware/getUserData.js';
 import { adminsOnly, usersOnly } from './middleware/authorizedAccessOnly.js';
 import { notLoggedInAccessOnly } from './middleware/notLoggedInAccessOnly.js';
 import { uploadApiRouter } from './api/uploadAPI.js';
 import { adminApiRouter } from './router/adminRouter.js';
-import { postReactionPostAPI } from './api/reactionAPI.js';
 import { connection } from './db.js';
 
 const app = express();
 const port = process.env.PORT || 5114;
 
-// const corsOptions = {
-//   origin: 'https://social-website-gandalizdis.onrender.com', // Frontend URL
-//   credentials: true,
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allow these methods
-//   allowedHeaders: [
-//     'Content-Type',
-//     'Authorization',
-//     'Cookie',
-//     'X-Requested-With',
-//   ], // Include all needed headers
-// };
+// === Middleware ===
 
-// CORS Options
+// CORS Configuration
 const corsOptions = {
-  origin: 'https://social-website-gandalizdis.onrender.com', // Frontend URL
-  credentials: true, // Allow credentials
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
+  origin: 'https://social-website-gandalizdis.onrender.com',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type',
     'Authorization',
     'Cookie',
     'X-Requested-With',
-  ], // Allowed headers
+  ],
 };
 
-// Apply CORS Middleware
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Handle preflight requests
-
-// Preflight request handler for OPTIONS
-// app.options('*', (req, res) => {
-//   res.header(
-//     'Access-Control-Allow-Origin',
-//     'https://social-website-gandalizdis.onrender.com'
-//   );
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//   res.header(
-//     'Access-Control-Allow-Headers',
-//     'Content-Type, Authorization, Cookie, X-Requested-With'
-//   );
-//   res.header('Access-Control-Allow-Credentials', 'true');
-//   res.sendStatus(200);
-// });
 
 // Global Logging Middleware
 app.use((req, res, next) => {
   console.log(`Request: ${req.method} ${req.url}`);
-  console.log('Origin:', req.headers.origin);
   console.log('Request Headers:', req.headers);
   next();
 });
 
-app.use((req, res, next) => {
-  res.on('finish', () => {
-    console.log('Response Status:', res.statusCode);
-    console.log('Response Headers:', res.getHeaders());
-  });
-  next();
-});
-
 // Body parsers
-app.use(express.json({ type: 'application/json' }));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Static files
 app.use(express.static('./public'));
 
-// Cookie parser middleware
+// Cookie parser and user data middleware
 app.use(cookieParser());
-app.use(getUserData); // Middleware to extract user data from cookies
+app.use(getUserData);
 
+// Log cookies for debugging
 app.use((req, res, next) => {
-  console.log('Cookies:', req.cookies); // Requires cookie-parser middleware
-  next();
-});
-
-// Middleware testing
-app.use((req, res, next) => {
-  console.log('Middleware: cookieParser');
-  next();
-});
-app.use((req, res, next) => {
-  console.log('Middleware: getUserData');
   console.log('Cookies:', req.cookies);
   next();
 });
 
-// Route for home page
+// === Routes ===
+
+// Home Page
 app.get('/', homePage);
 
-// Testing CORS endpoint
-app.get('/test-cors', (req, res) => {
-  res.json({ message: 'CORS Test Successful' });
-});
-
-app.use((req, res, next) => {
-  console.log(`Request method: ${req.method}, URL: ${req.url}`);
-  console.log('Request headers:', req.headers);
-  next();
-});
-
-app.use((req, res, next) => {
-  res.on('finish', () => {
-    console.log('Response headers:', res.getHeaders());
-  });
-  next();
-});
-
-// Testing database connection
-app.get('/test-db-connection', async (req, res) => {
-  try {
-    const [rows] = await connection.query('SELECT 1'); // testing
-    res.status(200).send('Database connection successful');
-  } catch (error) {
-    console.error('Database connection test failed:', error);
-    res.status(500).send('Database connection test failed');
-  }
-});
-
-// AUTHENTICATION AND USER ROUTES
-
-// NEIDOMU KAS TU
-app.post(
-  '/api/login',
-  (req, res, next) => {
-    console.log('CORS middleware for /api/login executed');
-    res.header(
-      'Access-Control-Allow-Origin',
-      'https://social-website-gandalizdis.onrender.com'
-    );
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-  },
-  loginPostAPI
-);
-
+// Authentication
 app.post('/api/register', notLoggedInAccessOnly, registerPostAPI);
-
-// REIKIA ZINOTI KAS TU
+app.post('/api/login', loginPostAPI);
 app.get('/api/login', usersOnly, loginGetAPI);
-// app.get(
-//   '/api/logout',
-//   (req, res, next) => {
-//     console.log('CORS middleware for logout executed');
-//     res.header(
-//       'Access-Control-Allow-Origin',
-//       'https://social-website-gandalizdis.onrender.com'
-//     );
-//     res.header('Access-Control-Allow-Credentials', 'true');
-//     next();
-//   },
-//   usersOnly,
-//   logoutGetAPI
-// );
-app.get(
-  '/api/logout',
-  (req, res, next) => {
-    console.log('CORS middleware for logout executed');
-    res.header(
-      'Access-Control-Allow-Origin',
-      'https://social-website-gandalizdis.onrender.com'
-    );
-    res.header('Access-Control-Allow-Credentials', 'true');
-    next();
-  },
-  (req, res, next) => {
-    console.log('Middleware: usersOnly');
-    console.log('Cookies:', req.cookies);
-    next();
-  },
-  logoutGetAPI
-);
+app.get('/api/logout', usersOnly, logoutGetAPI);
+
+// Posts
 app.post('/api/post', usersOnly, postPostAPI);
 app.get('/api/post', usersOnly, postGetAPI);
 app.get('/api/post/initial', usersOnly, postGetAPI);
@@ -200,25 +82,36 @@ app.get('/api/post/old/:olderId', usersOnly, postGetAPI);
 // app.put('/api/post', usersOnly, postPutAPI);
 // app.delete('/api/post', usersOnly, postDeleteAPI);
 
-// REACTIONS
+// Reactions
 app.post('/api/post-reaction', usersOnly, postReactionPostAPI);
 
-// FILE UPLOADS
+// File Uploads
 app.use('/api/upload', usersOnly, uploadApiRouter);
 
-// ADMIN ROUTES
+// Admin Routes
 app.use('/api/admin', adminsOnly, adminApiRouter);
 
-// ERROR HANDLING
+// Database Connection Test
+app.get('/test-db-connection', async (req, res) => {
+  try {
+    await connection.query('SELECT 1'); // Simple query to test connection
+    res.status(200).send('Database connection successful');
+  } catch (error) {
+    console.error('Database connection test failed:', error);
+    res.status(500).send('Database connection test failed');
+  }
+});
 
-// Fallback for 404 (not found)
+// === Error Handling ===
+
+// Handle 404 (Not Found)
 app.get('*', notFoundPage);
 
-// Middleware for handling 404 and fatal server errors
+// Middleware for 404 and fatal errors
 app.use(notFoundResponse);
 app.use(fatalServerErrorResponse);
 
-// Start the server
+// Start the Server
 app.listen(port, () => {
-  console.log('SERVER: http://localhost:' + port);
+  console.log(`Server running on http://localhost:${port}`);
 });

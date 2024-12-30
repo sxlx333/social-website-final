@@ -105,7 +105,7 @@ export async function loginPostAPI(req, res) {
 }
 
 export async function loginGetAPI(req, res) {
-  const { loginToken } = req.cookie;
+  const { loginToken } = req.cookies;
 
   // 1) ar turim loginToken
   if (!loginToken) {
